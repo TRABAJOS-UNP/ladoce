@@ -1,9 +1,9 @@
 Use `BDLA12` ;
 
 DELIMITER //
-CREATE PROCEDURE AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60))
+CREATE PROCEDURE AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
 BEGIN
-  SELECT * FROM Usuario WHERE email=_email AND password =_password AND NOT estado!='0001' ;
+  SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado!=_estado;
 END
 //
 
@@ -13,7 +13,6 @@ BEGIN
   /*Estado por defecto EN_PROCESO*/
   DECLARE default_estado CHAR(4);
   SET default_estado = '0002';
-
   START TRANSACTION;
     INSERT INTO Reserva VALUES(DEFAULT, NOW(), fechaReserva, default_estado, O.O, idCliente);
   COMMIT;
