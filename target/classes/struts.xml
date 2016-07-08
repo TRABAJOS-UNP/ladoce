@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+ 
+  
+ 
+ <package name="default" extends="struts-default" >
+ </package>
+ 
+  
+ 
+  <package name="Controlador" namespace="/" extends="struts-default" >
+ 
+   <default-action-ref name="home" />
+   
+ 	<action name="home" >
+ 		<result>/index.jsp</result>
+ 	</action>
+ 
+
+        <action name="autenticacion" class="Controlador.UsuarioAction" method="conectar"> 
+            <result>/Sedes/index.jsp</result>
+            <result name="input">/Usuarios/index.jsp</result> 
+        </action>
+   
+ 
+  </package>
+</struts>
