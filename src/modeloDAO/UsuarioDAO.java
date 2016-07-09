@@ -41,8 +41,8 @@ public class UsuarioDAO extends conexion{
 		
 		int contador=0;
 		boolean encontro=false;
-		while(contador<ps.getParametros().size() || !encontro){
-			
+		while(contador<(ps.getParametros().size())&& !encontro){
+			System.out.println(contador +"-----"+ps.getParametros().size());
 			if(ps.getParametros().get(contador).getDescripcion_corta().equals("Deshabilitado"))
 				{encontro=true;
 				
@@ -51,6 +51,7 @@ public class UsuarioDAO extends conexion{
 			contador++;
 		}
 		
+		if(!codigo_parametro.equals("")){
 		String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
 		rs=sta.executeQuery(consulta);
 		
@@ -68,7 +69,7 @@ public class UsuarioDAO extends conexion{
 										this.rs.getString("estado"),
 										this.rs.getString("tipo"));			
 				}	
-			}
+			}}
 		}
 		this.cerrarConexion();
 		return user;
