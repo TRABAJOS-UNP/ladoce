@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<%= HelperVistas.getNavbar(null) %>
+	<%=HelperVistas.getNavbar(request.getSession())%>
 	
 	<div class="container">
 		<div class="row">

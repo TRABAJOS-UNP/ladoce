@@ -1,9 +1,25 @@
 package modelo;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import modeloDAO.ParametrosDAO;
+
+
+
+
 public class HelperVistas {
 	private static String PROJECT_NAME = "/ladoce";
-	
+ public HelperVistas() {
+		 
+	 }
+	 
+	 
+	 
+	 
 	public static String alerta(String msg){
+		
 		return "<div class='container'>"
 					+"<div class='row'>"
 						+"<div class='col-xs-10 col-sm-8 col-md-6 no-float center-block'>"
@@ -46,7 +62,76 @@ public class HelperVistas {
   				+"<script src='"+PROJECT_NAME+"/bootstrap/js/myapp.js'></script>"
 				;
 	}
-	public static String getNavbar(Usuario usuario){
+	public  static String getNavbar(HttpSession a){
+	
+		String funciones="";
+		if(a.getAttribute("tipo")!=null){
+			String NombreUsuario=a.getAttribute("nombres").toString();
+			String tipo=a.getAttribute("tipo").toString();
+			if(tipo.equals("0001")){
+				funciones= " <ul class='nav navbar-nav navbar-right'>"
+						+ "<li class='dropdown'>"
+						+ "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
+						+ "<span class='glyphicon glyphicon-user'></span> "+NombreUsuario+"<span class='caret'></span>"
+						+ "</a>"
+						+ "<ul class='dropdown-menu'>"
+						+ "<li><a href='#'>MisReservas</a></li>"
+						+ "<li role='separator' class='divider'></li>"
+						+ "<li><a href='cerrar.action'>Cerrar Sessión</a></li>"
+						+ "</ul>"
+						+ "</li>"
+						+ "</ul>"+"</div>"+
+						"</div>"+
+					    "</nav>";
+			}
+			if(tipo.equals("0002")){
+				funciones= " <ul class='nav navbar-nav navbar-right'>"
+						+ "<li class='dropdown'>"
+						+ "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
+						+ "<span class='glyphicon glyphicon-user'></span> "+NombreUsuario+"<span class='caret'></span>"
+						+ "</a>"
+						+ "<ul class='dropdown-menu'>"
+						+ "<li><a href='#'>Perfil</a></li>"
+						+ "<li><a href='canchas.action'>Canchas</a></li>"
+						+ "<li role='separator' class='divider'></li>"
+						+ "<li><a href='cerrar.action'>Cerrar Sessión</a></li>"
+						+ "</ul>"
+						+ "</li>"
+						+ "</ul>"+"</div>"+
+						"</div>"+
+					    "</nav>";
+			}
+			if(tipo.equals("0003")){
+				funciones= " <ul class='nav navbar-nav navbar-right'>"
+						+ "<li class='dropdown'>"
+						+ "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
+						+ "<span class='glyphicon glyphicon-user'></span> "+NombreUsuario+"<span class='caret'></span>"
+						+ "</a>"
+						+ "<ul class='dropdown-menu'>"
+						+ "<li><a href='#'>Perfil</a></li>"
+						+ "<li><a href='operadores.action'>Operadores</a></li>"
+						+ "<li role='separator' class='divider'></li>"
+						+ "<li><a href='cerrar.action'>Cerrar Sessión</a></li>"
+						+ "</ul>"
+						+ "</li>"
+						+ "</ul>"+"</div>"+
+						"</div>"+
+					    "</nav>";
+				
+			}
+		
+		}
+		//si no esta logeado
+		else{
+			funciones="<ul class='nav navbar-nav navbar-right'>"+
+							"<li>"+
+								"<a href='iniciar_sesion.action'>Iniciar Sesión</a>"+
+							"</li>"+
+						"</ul>"+
+					"</div>"+
+				"</div>"+
+	    "</nav>";
+		}
 		String navbar = 
 		"<nav class='navbar navbar-inverse'>"+
 				"<div class='container-fluid'>"+
@@ -65,16 +150,11 @@ public class HelperVistas {
 						"<ul class='nav navbar-nav'>"+
 							"<li class='active'><a href='home.action'>Home <span class='sr-only'>(current)</span></a></li>"+
 							"<li><a href='sedes.action'>Sedes</a></li>"+
-						"</ul>"+
-						"<ul class='nav navbar-nav navbar-right'>"+
-							"<li>"+
-								"<a href='iniciar_sesion.action'>Iniciar Sesión</a>"+
-							"</li>"+
-						"</ul>"+
-					"</div>"+
-				"</div>"+
-	    "</nav>";
+						"</ul>"+funciones;
 		return navbar;
 	}
+
+
+
 	
 }

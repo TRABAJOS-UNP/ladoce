@@ -17,7 +17,7 @@ public class UsuarioDAO extends conexion{
 	
 	
 	
-	public void agregar(){}
+	public void guardar(){}
 	
 	public void modificar(){}
 	
@@ -42,7 +42,6 @@ public class UsuarioDAO extends conexion{
 		int contador=0;
 		boolean encontro=false;
 		while(contador<(ps.getParametros().size())&& !encontro){
-			System.out.println(contador +"-----"+ps.getParametros().size());
 			if(ps.getParametros().get(contador).getDescripcion_corta().equals("Deshabilitado"))
 				{encontro=true;
 				

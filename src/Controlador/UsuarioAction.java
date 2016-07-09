@@ -9,6 +9,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 
 import modelo.Usuario;
+import modeloDAO.ParametrosDAO;
 import modeloDAO.UsuarioDAO;
 
 public class UsuarioAction extends ActionSupport implements SessionAware{
@@ -64,6 +65,7 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
 	
 public String desconectar()throws Exception{
 	this.getSession().clear();
+	ParametrosDAO.parametros.clear();
 	return SUCCESS;
 }
 

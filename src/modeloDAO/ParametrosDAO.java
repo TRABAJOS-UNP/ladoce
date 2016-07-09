@@ -13,7 +13,7 @@ public class ParametrosDAO extends conexion{
 	private Parametros p;
 	private Statement sta;
 	private ResultSet  rs;
-	public ArrayList <Parametros> parametros=new ArrayList();
+	public static ArrayList <Parametros> parametros=new ArrayList();
 	
 	public void consultar_parametros() throws SQLException{
 	
