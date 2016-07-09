@@ -179,9 +179,17 @@ DROP PROCEDURE IF EXISTS AsignarOperador;
 CREATE PROCEDURE AsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni time)
 BEGIN
     DECLARE idSe int;
-    DECLARE idOpe int;
+    DECLARE idOpe1 int;
+    DECLARE idOpe2 int;
+    DECLARE idDir int;
+    SET idOpe2 = -1;
     SET idSe = (SELECT idSede FROM Sede WHERE nombre = nomSede);
-    SET idOpe = (SELECT idOperador FROM Operador WHERE Operador_idUsuario = (SELECT idUsuario FROM usuario WHERE DNI = dniOpe));
+    SET idOpe1 = (SELECT idOperador FROM Operador WHERE Operador_idUsuario = (SELECT idUsuario FROM usuario WHERE DNI = dniOpe));
+    SET idOpe2 = (SELECT Dirige_idOperador FROM Dirige WHERE Dirige_idSede = idSe);
+    if idOpe2 <> -1 THEN
+    	SET idDir = (SELECT idDirige FROM Dirige WHERE Dirige_idSede = idSe AND Dirige_idOperador = idOpe2);
+    	UPDATE Dirige SET fin = fechaIni WHERE idDirige = idDir;
+    end if;
     BEGIN
       START TRANSACTION;
     	INSERT INTO Dirige VALUES (DEFAULT, fechaIni, idSe, idOpe);
