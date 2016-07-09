@@ -131,8 +131,10 @@ BEGIN
     WHERE horaInicio=_horaInicio AND horaFin=_horaFin AND
     idReserva in (SELECT idReserva FROM Reserva WHERE fechaReserva = _fechaReserva));
   IF idDetalleReserva!=NULL THEN
+    SET subTotal = (SELECT subTotal FROM PrecioHora WHERE horaInicio=_horaInicio AND horaFin=_horaFin);
     START TRANSACTION;
       INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
+      UPDATE Reserva SET total=total+subTotal WHERE idReserva=_idReserva;
     COMMIT;
   ELSE
     SELECT 'EL DETALLE DE RESERVA YA EXISTE' AS 'MSG_ERROR'
@@ -155,7 +157,6 @@ BEGIN
 	COMMIT;
 END;
 //
-DELIMITER //
 
 DELIMITER //
 /*
