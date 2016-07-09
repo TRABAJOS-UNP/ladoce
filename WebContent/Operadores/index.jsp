@@ -6,24 +6,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <title>La 12</title>
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../bootstrap/css/style.css" rel="stylesheet">
+    <style type="text/css">@import url(bootstrap/css/bootstrap.min.css);
+   @import url(bootstrap/css/style.css);
+   </style>
 </head>
 <body>
 <% HttpSession sesion=request.getSession();
 
 String nombre=null;
-if(sesion.getAttribute("Tipo")==null)
-		 response.sendRedirect("../index.jsp");
-	
-		 else {
-			 if(sesion.getAttribute("Tipo").toString().equals("3")){
-				 nombre=sesion.getAttribute("Nombres").toString(); 
-			 }
-			 else  response.sendRedirect("../index.jsp");
+
+				 nombre=sesion.getAttribute("nombres").toString(); 
 			
-				 
-		 }
 		
 	%>
 	<nav class="navbar navbar-inverse">
@@ -41,8 +34,9 @@ if(sesion.getAttribute("Tipo")==null)
 	      </div>
 	      <div class="collapse navbar-collapse" id="navbar1">
 	        <ul class="nav navbar-nav">
-	          <li><a href="../index.jsp">Home <span class="sr-only">(current)</span></a></li>
-	          <li class="active"><a href="../Sedes">Sedes</a></li>
+	          <li><a href="home.action">Home <span class="sr-only">(current)</span></a></li>
+	          <li class="active"><a href="sedes.action">Sedes</a></li>
+	         
 	        </ul>
 	        <ul class="nav navbar-nav navbar-right">
 	          <li class="dropdown">
@@ -51,10 +45,10 @@ if(sesion.getAttribute("Tipo")==null)
 							</a>
 	            <ul class="dropdown-menu">
 	                <li><a href="#">A ction</a></li>
-	                <li><a href="#">Another action</a></li>
-	                <li><a href="#">Something else here</a></li>
+	                <li><a href="canchas.action">Canchas</a></li>
+          <li><a href="operadores.action">Operadores</a></li>
 	                <li role="separator" class="divider"></li>
-	                <li><a href="../Usuarios/index.jsp?cerrar=true">Cerrar Sesion</a></li>
+	                <li><a href="cerrar.action">Cerrar Sesion</a></li>
 	            </ul>
 	          </li>
 	        </ul>
@@ -168,8 +162,8 @@ if(sesion.getAttribute("Tipo")==null)
 			<h3 align="center">Footer</h3>
 		</div>
 	</div>
-	<script src="../bootstrap/js/jquery.min.js"></script>
-  <script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script>
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip()

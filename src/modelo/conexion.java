@@ -14,7 +14,7 @@ public class conexion {
 	private final String contrasenia="";
 	protected Connection conexion=null;
 	private String portNumber="3306";
-	private String databaseName="ladoce";
+	private String databaseName="BDLA12";
 	private String url="jdbc:mysql://localhost:3306/"+databaseName;
 	
 	public conexion()

@@ -40,7 +40,7 @@ public class UsuarioDAO extends conexion{
 		
 		
 		while(rs.next()){
-			if(rs.getString("estado").equals("h")){
+			if(rs.getString("estado").equals("0001")){
 				if( email.equals(rs.getString("email"))&& pass.equals(rs.getString("password") )){
 					user=new Usuario( 	this.rs.getString("email"),
 										this.rs.getString("password"),
@@ -48,8 +48,8 @@ public class UsuarioDAO extends conexion{
 										this.rs.getString("apellidos"),
 										this.rs.getString("celular"),
 										this.rs.getString("DNI"),
-										this.rs.getString("estado").charAt(0),
-										this.rs.getString("tipo").charAt(0));			
+										this.rs.getString("estado"),
+										this.rs.getString("tipo"));			
 				}	
 			}
 		}

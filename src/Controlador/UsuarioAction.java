@@ -5,10 +5,10 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.ActionSupport;
 
 import modelo.Usuario;
-import modelo.consultas;
 import modeloDAO.UsuarioDAO;
 
 public class UsuarioAction extends ActionSupport implements SessionAware{
@@ -56,16 +56,17 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
                     this.session.put("celular", user.getCelular());
                     this.session.put("dni", user.getDni());
                     this.session.put("tipo", user.getNivel());
+                  
                     return SUCCESS;      
          }
        return INPUT; 
 }
 	
-	 public String desconectar() { 
-         // vaciar la sesión del usuario 
-         this.session.clear();
-         return SUCCESS; 
- } 
+public String desconectar()throws Exception{
+	System.out.println("si se desconeectas");
+	this.getSession().clear();
+	return SUCCESS;
+}
 
 	
 }

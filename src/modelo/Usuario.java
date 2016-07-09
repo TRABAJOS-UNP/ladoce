@@ -10,9 +10,9 @@ public class Usuario implements Serializable{
 	private  String apellidos;
 	private  String celular;
 	private  String dni;
-	private  char estado;
-	private char nivel;
-	public Usuario(String mail,String pass,String nom,String ap,String cel,String d,char es,char n) {
+	private  String estado;
+	private String nivel;
+	public Usuario(String mail,String pass,String nom,String ap,String cel,String d,String es,String n) {
 		
 		email=mail;
 		 password=pass;
@@ -22,13 +22,6 @@ public class Usuario implements Serializable{
 		dni=d;
 		estado=es;
 		 nivel=n;
-	}
-	
-	public char getNivel() {
-		return nivel;
-	}
-	public void setNivel(char nivel) {
-		this.nivel = nivel;
 	}
 	public int getIdUsuario() {
 		return idUsuario;
@@ -72,10 +65,17 @@ public class Usuario implements Serializable{
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	public char getEstado() {
+	public String getEstado() {
 		return estado;
 	}
-	public void setEstado(char estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+	public String getNivel() {
+		return nivel;
+	}
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
 }
+	

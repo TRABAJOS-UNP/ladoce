@@ -6,23 +6,12 @@
 <head>
 	<meta charset="utf-8">
     <title>La 12</title>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="bootstrap/css/style.css" rel="stylesheet">
+     <style type="text/css">@import url(bootstrap/css/bootstrap.min.css);
+   @import url(bootstrap/css/style.css);
+   </style>
 </head>
 <body>
-<% HttpSession sesion=request.getSession();
 
-String nombre=null;
-if(sesion.getAttribute("Tipo")==null)
-		 nombre="invitado";
-	
-		 else {
-			 try{
-				 
-			 nombre=sesion.getAttribute("Nombres").toString();}
-		catch(Exception e){}	 
-		 }
-	%>
 	<nav class="navbar navbar-inverse">
 	    <div class="container-fluid">
 	      <div class="navbar-header">
@@ -38,17 +27,12 @@ if(sesion.getAttribute("Tipo")==null)
 	      </div>
 	      <div class="collapse navbar-collapse" id="navbar1">
 	        <ul class="nav navbar-nav">
-	          <li class="active"><a href="index.jsp">Home <span class="sr-only">(current)</span></a></li>
-	          <li><a href="Sedes/">Sedes</a></li>
+	          <li class="active"><a href="home.action">Home <span class="sr-only">(current)</span></a></li>
+	          <li><a href="sedes.action">Sedes</a></li>
 	        </ul>
 	        <ul class="nav navbar-nav navbar-right">
 	        	<li>
-	        	<%if(!nombre.equals("invitado")){
-	        		out.print("<a>"+nombre+"</a>");
-	        	}
-	        	else
-	        		out.print("<a href='Usuarios/'>Iniciar Sesión</a>");
-	        	%>
+	        	<a href='iniciar_sesion.action'>Iniciar Sesión</a>"
 	        	
 	        	</li>
 	        </ul>

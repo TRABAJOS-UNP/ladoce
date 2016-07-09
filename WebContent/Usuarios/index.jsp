@@ -7,18 +7,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-   
+   <style type="text/css">@import url(bootstrap/css/bootstrap.min.css);
+   @import url(bootstrap/css/style.css);
+   </style>
     <title>La 12</title>
-   
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../bootstrap/css/style.css" rel="stylesheet">
+    
 </head>
 <body>
-<% HttpSession sesion=request.getSession();
-	if(request.getParameter("cerrar")!=null){
-		sesion.invalidate();
-	}
-%>
+
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -34,8 +30,9 @@
       </div>
       <div class="collapse navbar-collapse" id="navbar1">
         <ul class="nav navbar-nav">
-          <li><a href="../index.jsp"> Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="../Sedes">Sedes</a></li>
+          <li><a href="home.action"> Home <span class="sr-only">(current)</span></a></li>
+          <li><a href="sedes.action">Sedes</a></li>
+          
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="../Usuarios">Iniciar Sesión</a></li>
@@ -123,8 +120,8 @@
       </div>
     </div>
   </div>
-  <script src="../bootstrap/js/jquery.min.js"></script>
-  <script src="../bootstrap/js/bootstrap.min.js"></script>
+  <script src="bootstrap/js/jquery.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
