@@ -1,3 +1,4 @@
+<%@page import="modelo.HelperVistas"%>
 <%@ page language="java" contentType="text/html; utf=8"
     pageEncoding="utf-8"%>
 <%@ page session="true" %>
@@ -6,39 +7,12 @@
 <head>
 	<meta charset="utf-8">
     <title>La 12</title>
-     <style type="text/css">@import url(bootstrap/css/bootstrap.min.css);
-   @import url(bootstrap/css/style.css);
-   </style>
+    <%= HelperVistas.getLinkToCss() %>
 </head>
 <body>
 
-	<nav class="navbar navbar-inverse">
-	    <div class="container-fluid">
-	      <div class="navbar-header">
-	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar1" aria-expanded="false">
-	          <span class="sr-only">Toggle navigation</span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	        </button>
-	        <a class="navbar-brand" href="index.html">
-	          <img alt="LogoLa12" src="">
-	        </a>
-	      </div>
-	      <div class="collapse navbar-collapse" id="navbar1">
-	        <ul class="nav navbar-nav">
-	          <li class="active"><a href="home.action">Home <span class="sr-only">(current)</span></a></li>
-	          <li><a href="sedes.action">Sedes</a></li>
-	        </ul>
-	        <ul class="nav navbar-nav navbar-right">
-	        	<li>
-	        	<a href='iniciar_sesion.action'>Iniciar Sesión</a>"
-	        	
-	        	</li>
-	        </ul>
-	      </div>
-	    </div>
-	</nav>
+	<%= HelperVistas.getNavbar(null) %>
+	
 	<div class="container">
 		<div class="row">
 			<h3 align="center">Canchas Deportivas</h3>
@@ -46,7 +20,7 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6  col-md-4 no-float center-block">
-				<a href="Sedes/" type="button" class="btn btn-success btn-lg btn-block">
+				<a href="reservar" type="button" class="btn btn-success btn-lg btn-block">
 					<span class="glyphicon glyphicon-hand-right"></span>
 					Reservar
 					<span class="glyphicon glyphicon-hand-left"></span>
@@ -69,7 +43,6 @@
 			<h3 align="center">Footer</h3>
 		</div>
 	</div>
-	<script src="../bootstrap/js/jquery.min.js"></script>
-  <script src="../bootstrap/js/bootstrap.min.js"></script>
+	<%= HelperVistas.getScripts() %>
 </body>
 </html>

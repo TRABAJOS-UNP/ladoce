@@ -1,7 +1,7 @@
 package modelo;
 
 public class HelperVistas {
-	private static String PROJECT_NAME = "ladoce";
+	private static String PROJECT_NAME = "/ladoce";
 	
 	public static String alerta(String msg){
 		return "<div class='container'>"
@@ -36,42 +36,44 @@ public class HelperVistas {
 			+"</div>";
 	}
 	public static String getLinkToCss(){
-		return "<link href='/"+PROJECT_NAME+"/bootstrap/css/bootstrap.min.css' rel='stylesheet'>"
-				+"<link href='/"+PROJECT_NAME+"/bootstrap/css/style.css' rel='stylesheet'>"
+		return "<link href='"+PROJECT_NAME+"/bootstrap/css/bootstrap.min.css' rel='stylesheet'>"
+				+"<link href='"+PROJECT_NAME+"/bootstrap/css/style.css' rel='stylesheet'>"
 				;
 	}
 	public static String getScripts(){
-		return "<script src='/SistemaReservas/bootstrap/js/jquery.min.js'></script>"
-				+"<script src='/SistemaReservas/bootstrap/js/bootstrap.min.js'></script>"
-  				+"<script src='/SistemaReservas/bootstrap/js/myapp.js'></script>"
+		return "<script src='"+PROJECT_NAME+"/bootstrap/js/jquery.min.js'></script>"
+				+"<script src='"+PROJECT_NAME+"/bootstrap/js/bootstrap.min.js'></script>"
+  				+"<script src='"+PROJECT_NAME+"/bootstrap/js/myapp.js'></script>"
 				;
 	}
 	public static String getNavbar(Usuario usuario){
-		
 		String navbar = 
-		 "<ul class='nav navbar-nav'>"
-	          +"<li><a href='/"+PROJECT_NAME+"'>Home <span class='sr-only'>(current)</span></a></li>"
-	          +"<li><a href='/"+PROJECT_NAME+"/Sedes/'>Sedes</a></li>"
-	    +"</ul>"
-	   	+"<ul class='nav navbar-nav navbar-right'>";
-		if(usuario==null){
-			navbar+="<li><a href='/"+PROJECT_NAME+"/Usuarios/'>Iniciar Sesión</a></li>";
-		}else{
-			navbar+="<li class='dropdown'>"
-			        +"<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
-				   		+"<span class='glyphicon glyphicon-user'></span>Operador<span class='caret'></span>"
-					+"</a>"
-			        +"<ul class='dropdown-menu'>"
-			            +"<li><a href='#'>Action</a></li>"
-			            +"<li><a href='#'>Another action</a></li>"
-			            +"<li><a href='#'>Something else here</a></li>"
-			            +"<li role='separator' class='divider'></li>"
-			            +"<li><a href='#'>Cerrar sesión</a></li>"
-			        +"</ul>"
-		        +"</li>";
-					
-		}
-	   	navbar+="</ul>";
+		"<nav class='navbar navbar-inverse'>"+
+				"<div class='container-fluid'>"+
+					"<div class='navbar-header'>"+
+						"<button type='button' class='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar1' aria-expanded='false'>"+
+							"<span class='sr-only'>Toggle navigation</span>"+
+							"<span class='icon-bar'></span>"+
+							"<span class='icon-bar'></span>"+
+							"<span class='icon-bar'></span>"+
+						"</button>"+
+						"<a class='navbar-brand' href='home.action'>"+
+							"<img alt='LogoLa12' src=''>"+
+						"</a>"+
+					"</div>"+
+					"<div class='collapse navbar-collapse' id='navbar1'>"+
+						"<ul class='nav navbar-nav'>"+
+							"<li class='active'><a href='home.action'>Home <span class='sr-only'>(current)</span></a></li>"+
+							"<li><a href='sedes.action'>Sedes</a></li>"+
+						"</ul>"+
+						"<ul class='nav navbar-nav navbar-right'>"+
+							"<li>"+
+								"<a href='iniciar_sesion.action'>Iniciar Sesión</a>"+
+							"</li>"+
+						"</ul>"+
+					"</div>"+
+				"</div>"+
+	    "</nav>";
 		return navbar;
 	}
 	
