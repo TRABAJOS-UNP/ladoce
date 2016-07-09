@@ -84,6 +84,19 @@ BEGIN
 END;
 //
 DELIMITER //
+
+DELIMITER//
+CREATE PROCEDURE AgregarSede(in nombre NVARCHAR(50), in direccion NVARCHAR(60), in estado CHAR(4), in referencia TEXT, in nomDist NVARCHAR(45))
+BEGIN
+	Declare idDis INT;
+	SET idDis = (SELECT idDistrito FROM Distrito WHERE nombre = nomDist);
+	BEGIN
+	START TRANSACTION;
+	INSERT INTO Sede VALUES (DEFAULT, nombre, direccion, estado, referencia, idDis);
+	COMMIT;
+END;
+//
+
 CREATE PROCEDURE paAsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni time)
 BEGIN
     DECLARE idSe int;
