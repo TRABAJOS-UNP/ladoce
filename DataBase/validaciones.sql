@@ -206,9 +206,6 @@ BEGIN
 	if new.precio < 0.0 then
 		SIGNAL SQLSTATE '45000' set MESSAGE_TEXT = 'Error precio mayor a 0';
 	end if;
-	if new.estado not rlike '[0-9][0-9][0-9][0-9]' THEN
-	   	SIGNAL SQLSTATE '45000' set MESSAGE_TEXT = 'Error estado - solo digitos';
-	end if;
 END;
 
 DROP TRIGGER IF EXISTS check_upd_preciohora;
@@ -226,9 +223,6 @@ BEGIN
 	end if;
 	if new.precio < 0.0 then
 		SIGNAL SQLSTATE '45000' set MESSAGE_TEXT = 'Error precio mayor a 0';
-	end if;
-	if new.estado not rlike '[0-9][0-9][0-9][0-9]' THEN
-	   	SIGNAL SQLSTATE '45000' set MESSAGE_TEXT = 'Error estado - solo digitos';
 	end if;
 END;
 
