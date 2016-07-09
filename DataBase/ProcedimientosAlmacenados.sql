@@ -4,7 +4,7 @@ DELIMITER //
 CREATE PROCEDURE AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
 BEGIN
   SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado!=_estado;
-END
+END;
 //
 
 DELIMITER //
@@ -26,6 +26,16 @@ BEGIN
 END;
 //
 
+DELIMITER //
+CREATE PROCEDURE AgregarUsuario(in email VARCHAR(50), in password NVARCHAR(60),
+ in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
+ in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4)  )
+BEGIN
+ START TRANSACTION;
+ INSERT INTO Usuario VALUES(DEFAULT, email, password, nombres, apellidos, celular, dni, tipo, estado);
+ COMMIT;
+END;
+//
 DELIMITER //
 CREATE PROCEDURE AgregarDetalleReserva(in horaInicio TIME, in horaFin TIME, in _idReserva INT, in idCancha INT)
 BEGIN
