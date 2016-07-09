@@ -120,22 +120,23 @@ DELIMITER //
   Crea un detalle de la reserva y actualiza el campo total de Reserva
 */
 DROP PROCEDURE IF EXISTS CrearDetalleReserva;
-CREATE PROCEDURE CrearDetalleReserva(in horaInicio TIME, in horaFin TIME, in _idReserva INT,
+CREATE PROCEDURE CrearDetalleReserva(in _horaInicio TIME, in _horaFin TIME, in _idReserva INT,
   in idCancha INT)
 BEGIN
   DECLARE subTotal DECIMAL(10,2);
-  Declare fechaReserva DATE;
+  Declare _fechaReserva DATE;
   DECLARE idDetalleReserva INT;
-  SET fechaReserva = (SELECT fechaReserva FROM Reserva WHERE idReserva=_idReserva);
-  SET idDetalleReserva = (SELECT idDetalleReserva FROM DetalleReserva WHERE fecha);
+  SET _fechaReserva = (SELECT fechaReserva FROM Reserva WHERE idReserva=_idReserva);
+  SET idDetalleReserva = (SELECT idDetalleReserva FROM DetalleReserva
+    WHERE horaInicio=_horaInicio AND horaFin=_horaFin AND
+    idReserva in (SELECT idReserva FROM Reserva WHERE fechaReserva = _fechaReserva));
   IF idDetalleReserva!=NULL THEN
-
+    START TRANSACTION;
+      INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
+    COMMIT;
   ELSE
-
+    SELECT 'EL DETALLE DE RESERVA YA EXISTE' AS 'MSG_ERROR'
   END IF
-  START TRANSACTION;
-    INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
-  COMMIT;
 END;
 //
 
