@@ -1,6 +1,9 @@
 Use `BDLA12` ;
 
 DELIMITER //
+/*
+  Devuelve el usuario, si existe en la base de datos
+*/
 CREATE PROCEDURE AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
 BEGIN
   SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado!=_estado;
@@ -8,11 +11,13 @@ END;
 //
 
 DELIMITER //
+/*
+  Crea una reserva, con estado por defecto EN_PROCESO
+*/
 CREATE PROCEDURE CrearReserva(in idCliente INT, in fechaReserva DATE)
 BEGIN
-  /*Estado por defecto EN_PROCESO*/
   DECLARE default_estado CHAR(4);
-  SET default_estado = '0002';
+  SET default_estado = (SELECT codigo FROM Parametro WHERE valor='EN_PROCESO');
   START TRANSACTION;
     INSERT INTO Reserva VALUES(DEFAULT, NOW(), fechaReserva, default_estado, O.O, idCliente);
   COMMIT;
@@ -20,6 +25,9 @@ END;
 //
 
 DELIMITER //
+/*
+  Devuelve todo el contenido de la tabla Parametro
+*/
 CREATE PROCEDURE ConsultarParametros()
 BEGIN
   SELECT * FROM Parametro;
@@ -27,7 +35,10 @@ END;
 //
 
 DELIMITER //
-CREATE PROCEDURE AgregarUsuario(in email VARCHAR(50), in password NVARCHAR(60),
+/*
+  Crea una nueva cuenta de usuario
+*/
+CREATE PROCEDURE CrearUsuario(in email VARCHAR(50), in password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4) )
 BEGIN
@@ -38,7 +49,11 @@ END;
 //
 
 DELIMITER //
-CREATE PROCEDURE AgregarCliente(in _email VARCHAR(50), in _password NVARCHAR(60),
+/*
+  Crea un Cliente y su respectiva cuenta de usuario
+  tipo: CLIENTE
+*/
+CREATE PROCEDURE CrearCliente(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
 BEGIN
@@ -46,30 +61,61 @@ BEGIN
  DECLARE tipo INT;
  SET tipo = (SELECT codigo FROM Parametro WHERE valor='CLIENTE');
  START TRANSACTION;
-  CALL AgregarUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
+  CALL CrearUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
   SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
   INSERT INTO Cliente VALUES(DEFAULT, estado, idUsuario);
  COMMIT;
 END;
 //
+
+DELIMITER //
+/*
+  Crea un Operador y su respectiva cuenta de usuario
+  tipo: OPERADOR
+*/
+CREATE PROCEDURE CrearOperador(in _email VARCHAR(50), in _password NVARCHAR(60),
+ in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
+ in dni CHAR(8), in estado CHAR(4) )
+BEGIN
+ DECLARE idUsuario INT;
+ DECLARE tipo INT;
+ SET tipo = (SELECT codigo FROM Parametro WHERE valor='OPERADOR');
+ START TRANSACTION;
+  CALL CrearUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
+  SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
+  INSERT INTO Operador VALUES(DEFAULT, estado, idUsuario);
+ COMMIT;
+END;
+//
+
+DELIMITER //
+/*
+  Crea un Gerente y su respectiva cuenta de usuario
+  tipo: GERENTE
+*/
+CREATE PROCEDURE CrearGerente(in _email VARCHAR(50), in _password NVARCHAR(60),
+ in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
+ in dni CHAR(8), in estado CHAR(4) )
+BEGIN
+ DECLARE idUsuario INT;
+ DECLARE tipo INT;
+ SET tipo = (SELECT codigo FROM Parametro WHERE valor='GERENTE');
+ START TRANSACTION;
+  CALL CrearUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
+  SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
+  INSERT INTO Gerente VALUES(DEFAULT, estado, idUsuario);
+ COMMIT;
+END;
+//
+
 DELIMITER //
 CREATE PROCEDURE AgregarDetalleReserva(in horaInicio TIME, in horaFin TIME, in _idReserva INT, in idCancha INT)
 BEGIN
   DECLARE subTotal DECIMAL(10,2);
   DECLARE idDetalleReserva INT;
-  SELECT FROM Reserva WHERE
-  SET idDetalleReserva = (SELECT idDetalleReserva FROM DetalleReserva
-    WHERE horaInicio=_horahoraInicio AND horaFin=_horahoraFin AND idReserva=_idReserva);
-  IF idDetalleReserva!=NULL
-  BEGIN
-    START TRANSACTION;
-      INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
-    COMMIT;
-  END;
-  ELSE
-  BEGIN
-    SELECT 'El Detalle De Reserva Ya Existe' AS 'msg_error';
-  END;
+  START TRANSACTION;
+    INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
+  COMMIT;
 END;
 //
 DELIMITER
