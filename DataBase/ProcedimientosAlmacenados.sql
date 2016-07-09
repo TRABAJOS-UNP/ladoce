@@ -29,10 +29,26 @@ END;
 DELIMITER //
 CREATE PROCEDURE AgregarUsuario(in email VARCHAR(50), in password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
- in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4)  )
+ in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4) )
 BEGIN
  START TRANSACTION;
  INSERT INTO Usuario VALUES(DEFAULT, email, password, nombres, apellidos, celular, dni, tipo, estado);
+ COMMIT;
+END;
+//
+
+DELIMITER //
+CREATE PROCEDURE AgregarCliente(in _email VARCHAR(50), in _password NVARCHAR(60),
+ in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
+ in dni CHAR(8), in estado CHAR(4) )
+BEGIN
+ DECLARE idUsuario INT;
+ DECLARE tipo INT;
+ SET tipo = (SELECT codigo FROM Parametro WHERE valor='CLIENTE');
+ START TRANSACTION;
+  CALL AgregarUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
+  SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
+  INSERT INTO Cliente VALUES(DEFAULT, estado, idUsuario);
  COMMIT;
 END;
 //
