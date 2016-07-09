@@ -63,7 +63,6 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
 }
 	
 public String desconectar()throws Exception{
-	System.out.println("si se desconeectas");
 	this.getSession().clear();
 	return SUCCESS;
 }
