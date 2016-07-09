@@ -380,7 +380,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `BDLA12`;
-INSERT INTO `BDLA12`.`Gerente` (`idGerente`, `estado`, `Gerente_idUsuario`) VALUES (DEFAULT, '0001', 1);
+INSERT INTO `BDLA12`.`Gerente` (`idGerente`, `estado`, `Gerente_idUsuario`) VALUES (DEFAULT, '0000', 1);
 
 COMMIT;
 
@@ -400,4 +400,3 @@ INSERT INTO `BDLA12`.`Parametro` (`codigo`, `descripcionCorta`, `descripcion`, `
 INSERT INTO `BDLA12`.`Parametro` (`codigo`, `descripcionCorta`, `descripcion`, `valor`) VALUES ('0007', DEFAULT, DEFAULT, DEFAULT);
 
 COMMIT;
-
