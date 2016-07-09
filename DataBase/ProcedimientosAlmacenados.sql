@@ -4,7 +4,8 @@ DELIMITER //
 /*
   Devuelve el usuario, si existe en la base de datos
 */
-CREATE PROCEDURE AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
+DROP PROCEDURE IF EXISTS AutenticarUsuario;
+CREATE PROCEDURE  AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
 BEGIN
   SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado!=_estado;
 END;
@@ -14,6 +15,7 @@ DELIMITER //
 /*
   Crea una reserva, con estado por defecto EN_PROCESO
 */
+DROP PROCEDURE IF EXISTS CrearReserva;
 CREATE PROCEDURE CrearReserva(in idCliente INT, in fechaReserva DATE)
 BEGIN
   DECLARE default_estado CHAR(4);
@@ -28,6 +30,7 @@ DELIMITER //
 /*
   Devuelve todo el contenido de la tabla Parametro
 */
+DROP PROCEDURE IF EXISTS ConsultarParametros;
 CREATE PROCEDURE ConsultarParametros()
 BEGIN
   SELECT * FROM Parametro;
@@ -38,6 +41,7 @@ DELIMITER //
 /*
   Crea una nueva cuenta de usuario
 */
+DROP PROCEDURE IF EXISTS CrearUsuario;
 CREATE PROCEDURE CrearUsuario(in email VARCHAR(50), in password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4) )
@@ -53,6 +57,7 @@ DELIMITER //
   Crea un Cliente y su respectiva cuenta de usuario
   tipo: CLIENTE
 */
+DROP PROCEDURE IF EXISTS CrearCliente;
 CREATE PROCEDURE CrearCliente(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
@@ -73,6 +78,7 @@ DELIMITER //
   Crea un Operador y su respectiva cuenta de usuario
   tipo: OPERADOR
 */
+DROP PROCEDURE IF EXISTS CrearOperador;
 CREATE PROCEDURE CrearOperador(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
@@ -93,6 +99,7 @@ DELIMITER //
   Crea un Gerente y su respectiva cuenta de usuario
   tipo: GERENTE
 */
+DROP PROCEDURE IF EXISTS CrearGerente;
 CREATE PROCEDURE CrearGerente(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
@@ -109,17 +116,35 @@ END;
 //
 
 DELIMITER //
-CREATE PROCEDURE AgregarDetalleReserva(in horaInicio TIME, in horaFin TIME, in _idReserva INT, in idCancha INT)
+/*c
+  Crea un detalle de la reserva y actualiza el campo total de Reserva
+*/
+DROP PROCEDURE IF EXISTS CrearDetalleReserva;
+CREATE PROCEDURE CrearDetalleReserva(in horaInicio TIME, in horaFin TIME, in _idReserva INT,
+  in idCancha INT)
 BEGIN
   DECLARE subTotal DECIMAL(10,2);
+  Declare fechaReserva DATE;
   DECLARE idDetalleReserva INT;
+  SET fechaReserva = (SELECT fechaReserva FROM Reserva WHERE idReserva=_idReserva);
+  SET idDetalleReserva = (SELECT idDetalleReserva FROM DetalleReserva WHERE fecha);
+  IF idDetalleReserva!=NULL THEN
+
+  ELSE
+
+  END IF
   START TRANSACTION;
     INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
   COMMIT;
 END;
 //
-DELIMITER
-CREATE PROCEDURE AgregarCancha(in numero INT, in estado CHAR(4), nomSede NVARCHAR(50))
+
+DELIMITER //
+/*
+
+*/
+DROP PROCEDURE IF EXISTS CrearCancha;
+CREATE PROCEDURE CrearCancha(in numero INT, in estado CHAR(4), nomSede NVARCHAR(50))
 BEGIN
 	Declare idSe INT;
 	SET idSe = (SELECT idSede FROM Sede WHERE nombre = nomSede);
@@ -131,8 +156,11 @@ END;
 //
 DELIMITER //
 
-DELIMITER//
-CREATE PROCEDURE AgregarSede(in nombre NVARCHAR(50), in direccion NVARCHAR(60), in estado CHAR(4), in referencia TEXT, in nomDist NVARCHAR(45))
+DELIMITER //
+/*
+*/
+DROP PROCEDURE IF EXISTS CrearSede;
+CREATE PROCEDURE CrearSede(in nombre NVARCHAR(50), in direccion NVARCHAR(60), in estado CHAR(4), in referencia TEXT, in nomDist NVARCHAR(45))
 BEGIN
 	Declare idDis INT;
 	SET idDis = (SELECT idDistrito FROM Distrito WHERE nombre = nomDist);
@@ -142,8 +170,12 @@ BEGIN
 	COMMIT;
 END;
 //
+DELIMITER //
+/*
 
-CREATE PROCEDURE paAsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni time)
+*/
+DROP PROCEDURE IF EXISTS AsignarOperador;
+CREATE PROCEDURE AsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni time)
 BEGIN
     DECLARE idSe int;
     DECLARE idOpe int;
