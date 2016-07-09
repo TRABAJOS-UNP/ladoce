@@ -20,6 +20,13 @@ END;
 //
 
 DELIMITER //
+CREATE PROCEDURE ConsultarParametros()
+BEGIN
+  SELECT * FROM Parametro;
+END;
+//
+
+DELIMITER //
 CREATE PROCEDURE AgregarDetalleReserva(in horaInicio TIME, in horaFin TIME, in _idReserva INT, in idCancha INT)
 BEGIN
   DECLARE subTotal DECIMAL(10,2);
