@@ -43,7 +43,7 @@ BEGIN
   DECLARE idDetalleReserva INT;
   SELECT FROM Reserva WHERE
   SET idDetalleReserva = (SELECT idDetalleReserva FROM DetalleReserva
-    WHERE horaInicio=_horahoraInicio AND horaFin=_horahoraFin AND idReserva=_idReserva)
+    WHERE horaInicio=_horahoraInicio AND horaFin=_horahoraFin AND idReserva=_idReserva);
   IF idDetalleReserva!=NULL
   BEGIN
     START TRANSACTION;
@@ -54,25 +54,29 @@ BEGIN
   BEGIN
     SELECT 'El Detalle De Reserva Ya Existe' AS 'msg_error';
   END;
-
-END
+END;
 //
-
-
-
-DELIMITER $$
+DELIMITER
+CREATE PROCEDURE AgregarCancha(in numero INT, in estado CHAR(4), nomSede NVARCHAR(50))
+BEGIN
+	Declare idSe INT;
+	SET idSe = (SELECT idSede FROM Sede WHERE nombre = nomSede);
+	BEGIN
+	START TRANSACTION;
+	INSERT INTO Cancha VALUES (DEFAULT, numero, estado, idSe);
+	COMMIT;
+END;
+//
+DELIMITER //
 CREATE PROCEDURE paAsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni time)
 BEGIN
-	DECLARE idSe int;
+    DECLARE idSe int;
     DECLARE idOpe int;
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION
+    SET idSe = (SELECT idSede FROM Sede WHERE nombre = nomSede);
+    SET idOpe = (SELECT idOperador FROM Operador WHERE Operador_idUsuario = (SELECT idUsuario FROM usuario WHERE DNI = dniOpe));
     BEGIN
-    	ROLLBACK;
-    END;
-    SET idSe = (SELECT * FROM sede WHERE nombre = nomSede);
-    SET idOpe = (SELECT * FROM operador WHERE Operador_idUsuario = (SELECT idUsuario FROM usuario WHERE DNI = dniOpe));
-    START TRANSACTION;
-    INSERT INTO dirige (inicio, Dirige_idSede, Dirige_idOperador) VALUES (fechaIni, idSe, idOpe);
-COMMIT;
+      START TRANSACTION;
+    	INSERT INTO Dirige VALUES (DEFAULT, fechaIni, idSe, idOpe);
+    COMMIT;
 END;
-$$
+//
