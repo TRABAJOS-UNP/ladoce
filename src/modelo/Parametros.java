@@ -1,20 +1,24 @@
 package modelo;
 
 public class Parametros {
-		private char codigo;
+	
+		private String codigo;
 		private String descripcion;
 		private String descripcion_corta;
 		private String valor;
-		public Parametros(char cod,String des,String des_c,String valor){
+		
+		
+		
+		public Parametros(String cod,String des_c,String des,String valor){
 			this.codigo=cod;
 			this.descripcion=des;
 			this.descripcion_corta=des_c;
 			this.valor=valor;
 		}
-		public char getCodigo() {
+		public String getCodigo() {
 			return codigo;
 		}
-		public void setCodigo(char codigo) {
+		public void setCodigo(String codigo) {
 			this.codigo = codigo;
 		}
 		public String getDescripcion() {

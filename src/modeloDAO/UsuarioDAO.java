@@ -4,14 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import modelo.Parametros;
 import modelo.Usuario;
 import modelo.conexion;
 
 public class UsuarioDAO extends conexion{
 	
-	Usuario user;
-	Statement sta;
-	ResultSet  rs;
+	private Usuario user;
+	private Statement sta;
+	private ResultSet  rs;
 	
 	
 	
@@ -34,13 +35,29 @@ public class UsuarioDAO extends conexion{
 		
 		this.sta=this.conexion.createStatement();
 		this.rs=null; 
-		String consulta="select * from Usuario where email='"+email+"' and password='"+pass+"'" ;
+		ParametrosDAO ps=new ParametrosDAO();
+		String codigo_parametro="";
+		ps.consultar_parametros();
+		
+		int contador=0;
+		boolean encontro=false;
+		while(contador<ps.getParametros().size() || !encontro){
+			
+			if(ps.getParametros().get(contador).getDescripcion_corta().equals("Deshabilitado"))
+				{encontro=true;
+				
+				codigo_parametro=ps.getParametros().get(contador).getCodigo();
+				}
+			contador++;
+		}
+		
+		String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
 		rs=sta.executeQuery(consulta);
 		
 		
 		
 		while(rs.next()){
-			if(rs.getString("estado").equals("0001")){
+			if(!rs.getString("estado").equals(codigo_parametro)){
 				if( email.equals(rs.getString("email"))&& pass.equals(rs.getString("password") )){
 					user=new Usuario( 	this.rs.getString("email"),
 										this.rs.getString("password"),
