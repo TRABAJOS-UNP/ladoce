@@ -193,7 +193,7 @@ BEGIN
     end if;
     BEGIN
       START TRANSACTION;
-    	INSERT INTO Dirige VALUES (DEFAULT, fechaIni, idSe, idOpe);
+    	INSERT INTO Dirige VALUES (DEFAULT, fechaIni, NULL, idSe, idOpe);
     COMMIT;
 END;
 //
