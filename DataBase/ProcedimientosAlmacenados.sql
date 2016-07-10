@@ -45,7 +45,7 @@ CREATE PROCEDURE CrearUsuario(in email VARCHAR(50), in password NVARCHAR(60),
  in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4) )
 BEGIN
  START TRANSACTION;
- INSERT INTO Usuario VALUES(DEFAULT, email, password, nombres, apellidos, celular, dni, tipo, estado);
+  INSERT INTO Usuario VALUES(DEFAULT, email, password, nombres, apellidos, celular, dni, tipo, estado);
  COMMIT;
 END;
 //
@@ -60,13 +60,13 @@ CREATE PROCEDURE CrearCliente(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
 BEGIN
- DECLARE idUsuario INT;
- DECLARE tipo INT;
+ DECLARE _idUsuario INT UNSIGNED;
+ DECLARE tipo CHAR(4);
  SET tipo = (SELECT codigo FROM Parametro WHERE valor='CLIENTE');
  START TRANSACTION;
-  CALL CrearUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
-  SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
-  INSERT INTO Cliente VALUES(DEFAULT, estado, idUsuario);
+  CALL CrearUsuario(_email, _password, nombres, apellidos, celular, dni, tipo, estado);
+  SET _idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
+  INSERT INTO Cliente VALUES(DEFAULT, estado, _idUsuario);
  COMMIT;
 END;
 //
@@ -81,13 +81,13 @@ CREATE PROCEDURE CrearOperador(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
 BEGIN
- DECLARE idUsuario INT;
- DECLARE tipo INT;
+ DECLARE _idUsuario INT UNSIGNED;
+ DECLARE tipo CHAR(4);
  SET tipo = (SELECT codigo FROM Parametro WHERE valor='OPERADOR');
  START TRANSACTION;
-  CALL CrearUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
-  SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
-  INSERT INTO Operador VALUES(DEFAULT, estado, idUsuario);
+  CALL CrearUsuario(_email, _password, nombres, apellidos, celular, dni, tipo, estado);
+  SET _idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
+  INSERT INTO Operador VALUES(DEFAULT, estado, _idUsuario);
  COMMIT;
 END;
 //
@@ -102,13 +102,13 @@ CREATE PROCEDURE CrearGerente(in _email VARCHAR(50), in _password NVARCHAR(60),
  in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
  in dni CHAR(8), in estado CHAR(4) )
 BEGIN
- DECLARE idUsuario INT;
- DECLARE tipo INT;
+ DECLARE _idUsuario INT UNSIGNED;
+ DECLARE tipo CHAR(4);
  SET tipo = (SELECT codigo FROM Parametro WHERE valor='GERENTE');
  START TRANSACTION;
-  CALL CrearUsuario(email, password, nombres, apellidos, celular, dni, tipo, estado);
-  SET idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
-  INSERT INTO Gerente VALUES(DEFAULT, estado, idUsuario);
+  CALL CrearUsuario(_email, _password, nombres, apellidos, celular, dni, tipo, estado);
+  SET _idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
+  INSERT INTO Gerente VALUES(DEFAULT, estado, _idUsuario);
  COMMIT;
 END;
 //
@@ -128,15 +128,15 @@ BEGIN
   SET idDetalleReserva = (SELECT idDetalleReserva FROM DetalleReserva
     WHERE horaInicio=_horaInicio AND horaFin=_horaFin AND
     idReserva in (SELECT idReserva FROM Reserva WHERE fechaReserva = _fechaReserva));
-  IF idDetalleReserva!=NULL THEN
+  IF idDetalleReserva is NULL THEN
     SET subTotal = (SELECT subTotal FROM PrecioHora WHERE horaInicio=_horaInicio AND horaFin=_horaFin);
     START TRANSACTION;
       INSERT INTO DetalleReserva VALUES(DEFAULT, horaInicio, horaFin, subTotal, idReserva, idCancha);
       UPDATE Reserva SET total=total+subTotal WHERE idReserva=_idReserva;
     COMMIT;
   ELSE
-    SELECT 'EL DETALLE DE RESERVA YA EXISTE' AS 'MSG_ERROR'
-  END IF
+    SELECT 'EL DETALLE DE RESERVA YA EXISTE' AS 'MSG_ERROR';
+  END IF;
 END;
 //
 
@@ -144,15 +144,72 @@ DELIMITER //
 /*
 
 */
-DROP PROCEDURE IF EXISTS CrearCancha;
-CREATE PROCEDURE CrearCancha(in numero INT, in estado CHAR(4), nomSede NVARCHAR(50))
+DROP PROCEDURE IF EXISTS CrearDepartamento;
+CREATE PROCEDURE CrearDepartamento(in nombreDepartamento NVARCHAR(45))
 BEGIN
-	Declare idSe INT;
-	SET idSe = (SELECT idSede FROM Sede WHERE nombre = nomSede);
-	BEGIN
-	START TRANSACTION;
-	INSERT INTO Cancha VALUES (DEFAULT, numero, estado, idSe);
-	COMMIT;
+  DECLARE default_estado CHAR(4);
+  SET default_estado = (SELECT codigo FROM Parametro WHERE valor='HABILITADO');
+  START TRANSACTION;
+    INSERT INTO Departamento VALUES(DEFAULT, nombreDepartamento, default_estado);
+  COMMIT;
+END;
+//
+
+DELIMITER //
+/*
+
+*/
+DROP PROCEDURE IF EXISTS CrearProvincia;
+CREATE PROCEDURE CrearProvincia(in nombreProvincia NVARCHAR(45), in nombreDepartamento NVARCHAR(45))
+BEGIN
+  DECLARE default_estado CHAR(4);
+  DECLARE _idDepartamento INT UNSIGNED;
+  SET default_estado = (SELECT codigo FROM Parametro WHERE valor='HABILITADO');
+  SET _idDepartamento = (SELECT idDepartamento FROM Departamento WHERE nombre=nombreDepartamento);
+  START TRANSACTION;
+    INSERT INTO Provincia VALUES(DEFAULT, nombreProvincia, default_estado, _idDepartamento);
+  COMMIT;
+END;
+//
+
+DELIMITER //
+/*
+
+*/
+DROP PROCEDURE IF EXISTS CrearDistrito;
+CREATE PROCEDURE CrearDistrito(in nombreDistrito NVARCHAR(45), in nombreProvincia NVARCHAR(45))
+BEGIN
+  DECLARE default_estado CHAR(4);
+  DECLARE _idProvincia INT UNSIGNED;
+  DECLARE _idDistrito INT UNSIGNED;
+  SET default_estado = (SELECT codigo FROM Parametro WHERE valor='HABILITADO');
+  SET _idProvincia = (SELECT idProvincia FROM Provincia WHERE nombre=nombreProvincia);
+  SET _idDistrito = (SELECT idDistrito FROM Distrito WHERE Distrito_idProvincia=_idProvincia AND nombre=nombreDistrito);
+  IF _idDistrito IS NULL THEN
+    START TRANSACTION;
+      INSERT INTO Distrito VALUES(DEFAULT, nombreDistrito, default_estado, _idProvincia);
+    COMMIT;
+  ELSE
+    SELECT 'EL DISTRITO YA EXISTE' AS 'MSG_ERROR';
+  END IF;
+END;
+//
+DELIMITER //
+/*
+
+*/
+DROP PROCEDURE IF EXISTS CrearCancha;
+CREATE PROCEDURE CrearCancha(in numero INT, in estado CHAR(4), nombreSede NVARCHAR(50))
+BEGIN
+	DECLARE _idSede INT UNSIGNED;
+	SET _idSede = (SELECT idSede FROM Sede WHERE nombre=nombreSede);
+  IF _idSede IS NULL THEN
+    SELECT 'LA SEDE NO EXISTE' AS 'MSG_ERROR';
+  ELSE
+    START TRANSACTION;
+     INSERT INTO Cancha VALUES (DEFAULT, numero, estado, _idSede);
+    COMMIT;
+  END IF;
 END;
 //
 
@@ -160,22 +217,27 @@ DELIMITER //
 /*
 */
 DROP PROCEDURE IF EXISTS CrearSede;
-CREATE PROCEDURE CrearSede(in nombre NVARCHAR(50), in direccion NVARCHAR(60), in estado CHAR(4), in referencia TEXT, in nomDist NVARCHAR(45))
+CREATE PROCEDURE CrearSede(in nombreSede NVARCHAR(50), in direccion NVARCHAR(60),
+ in estado CHAR(4), in referencia TEXT, in nombreDistrito NVARCHAR(45))
 BEGIN
-	Declare idDis INT;
-	SET idDis = (SELECT idDistrito FROM Distrito WHERE nombre = nomDist);
-	BEGIN
-	START TRANSACTION;
-	INSERT INTO Sede VALUES (DEFAULT, nombre, direccion, estado, referencia, idDis);
-	COMMIT;
+	DECLARE _idDistrito INT UNSIGNED;
+	SET _idDistrito = (SELECT idDistrito FROM Distrito WHERE nombre=nombreDistrito);
+  IF _idDistrito IS NULL THEN
+    SELECT 'EL DISTRITO NO EXISTE' AS 'MSG_ERROR';
+  ELSE
+    START TRANSACTION;
+      INSERT INTO Sede VALUES (DEFAULT, nombreSede, direccion, estado, referencia, _idDistrito);
+    COMMIT;
+  END IF;
 END;
 //
+
 DELIMITER //
 /*
 
 */
 DROP PROCEDURE IF EXISTS AsignarOperador;
-CREATE PROCEDURE AsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni time)
+CREATE PROCEDURE AsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni DATE)
 BEGIN
     DECLARE idSe int;
     DECLARE idOpe1 int;
@@ -189,8 +251,7 @@ BEGIN
     	SET idDir = (SELECT idDirige FROM Dirige WHERE Dirige_idSede = idSe AND Dirige_idOperador = idOpe2);
     	UPDATE Dirige SET fin = fechaIni WHERE idDirige = idDir;
     end if;
-    BEGIN
-      START TRANSACTION;
+    START TRANSACTION;
     	INSERT INTO Dirige VALUES (DEFAULT, fechaIni, NULL, idSe, idOpe);
     COMMIT;
 END;
