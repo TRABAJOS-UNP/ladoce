@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <%@page import="modelo.HelperVistas"%>
     <%@ taglib prefix="s" uri="/struts-tags" %>
     <%@ page session="true" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,39 +8,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-   <style type="text/css">@import url(bootstrap/css/bootstrap.min.css);
-   @import url(bootstrap/css/style.css);
-   </style>
+   <%= HelperVistas.getLinkToCss() %>
     <title>La 12</title>
     
 </head>
 <body>
 
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/SistemaReservas/">
-          <img alt="LogoLa12" src="">
-        </a>
-      </div>
-      <div class="collapse navbar-collapse" id="navbar1">
-        <ul class="nav navbar-nav">
-          <li><a href="home.action"> Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="sedes.action">Sedes</a></li>
-          
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="../Usuarios">Iniciar Sesión</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <%=HelperVistas.getNavbar(request.getSession())%>
+  
   <div class="container">
     <h2>La 12, <small>más que fútbol</small></h2>
     <ul class="nav nav-tabs">
@@ -120,8 +96,7 @@
       </div>
     </div>
   </div>
-  <script src="bootstrap/js/jquery.min.js"></script>
-  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <%= HelperVistas.getScripts() %>
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
