@@ -32,9 +32,7 @@ DELIMITER //
 */
 DROP PROCEDURE IF EXISTS ConsultarParametros;
 CREATE PROCEDURE ConsultarParametros()
-BEGIN
   SELECT * FROM Parametro;
-END;
 //
 
 DELIMITER //
