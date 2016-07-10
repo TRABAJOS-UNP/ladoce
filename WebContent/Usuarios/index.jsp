@@ -32,6 +32,25 @@
           <div class="row">
             <div class="col-xs-10 col-sm-6 col-md-4 no-float center-block">
               <form method="post" action="autenticacion" class='form-horizontal'>
+            
+             <s:if test="getFieldErrors().get('user')!=null">
+             <div class='row'>
+						<div class=' no-float center-block'>
+							<div class='alert alert-danger text-center'>
+								<div class='alert-header'>
+									<button type='button' class='close' data-dismiss='alert'>&times;</button>
+								</div>
+							<div class='alert-body'>
+             	<s:property value='getFieldErrors().get("user")[0]'/>
+             	
+             		</div>
+						</div>
+					</div>
+				</div>
+             
+             </s:if>
+              
+              
                 <div class="form-group">
                   <label for="">Email:</label>
                   <s:textfield name="email" class="form-control" placeholder="email"></s:textfield>
@@ -40,7 +59,7 @@
                   <label for="">Contraseña:</label>
                   <s:password name="pass" class="form-control" placeholder="password"></s:password>
                   
-                 
+                
                 </div>
                 <div class='form-group'>
                   <s:submit class="btn btn-primary" value="Ingresar"></s:submit>

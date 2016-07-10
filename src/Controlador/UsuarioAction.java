@@ -59,8 +59,10 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
                     this.session.put("tipo", user.getNivel());
                   
                     return SUCCESS;      
+         }else{
+        	 addFieldError("user", "El usuario no registrado");
+       return INPUT;
          }
-       return INPUT; 
 }
 	
 public String desconectar()throws Exception{
