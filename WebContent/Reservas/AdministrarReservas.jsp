@@ -1,45 +1,18 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+    <%@page import="modelo.HelperVistas"%>
+    <%@ page session="true" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
     <title>La 12</title>
-    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../bootstrap/css/style.css" rel="stylesheet">
+     <%= HelperVistas.getLinkToCss() %>
 </head>
 <body>
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/SistemaReservas/">
-          <img alt="LogoLa12" src="">
-        </a>
-      </div>
-      <div class="collapse navbar-collapse" id="navbar1">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="/SistemaReservas/"> Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="/SistemaReservas/Sedes/">Sedes</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Operador<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">A ction</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+ 
+ <%=HelperVistas.getNavbar(request.getSession())%>
+ 
   <div class="container">
     <h2>Administración de Reservas - Sede Nº 1</h2>
     <ul class="nav nav-tabs">
@@ -108,8 +81,7 @@
       </div>
     </div>
   </div>
-  <script src="../bootstrap/js/jquery.min.js"></script>
-  <script src="../bootstrap/js/bootstrap.min.js"></script>
+  <%= HelperVistas.getScripts() %>
   <script>
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()

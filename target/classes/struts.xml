@@ -16,8 +16,8 @@
 		            <interceptor-ref name="sesionValida">
 		           		 	<param name="actionsPublicos">home,iniciar_sesion,sedes,autenticacion,cerrar</param>
 		           		 	<param name="actionsCliente">reservas</param>
-		           		 	<param name="actionsOperador">canchas</param>
-		           		 	<param name="actionsGerente">operadores</param>
+		           		 	<param name="actionsOperador">canchas,admin_reservas,modificar_sede</param>
+		           		 	<param name="actionsGerente">operadores,admin_sedes,asignar_operador</param>
 		   
 		            </interceptor-ref>  
 		            
@@ -50,6 +50,19 @@
  		<result>/Operadores/index.jsp</result>
  	</action>
  	
+ 	<action name="admin_reservas" >
+ 		<result>/Reservas/AdministrarReservas.jsp</result>
+ 	</action>
+ 	<action name="admin_sedes" >
+ 		<result>/Sedes/AdministrarSedes.jsp</result>
+ 	</action>
+ 	<action name="asignar_operador" >
+ 		<result>/Sedes/AsignarOperador.jsp</result>
+ 	</action>
+ 	<action name="modificar_sede" >
+ 		<result>/Sedes/ModificarSede.jsp</result>
+ 	</action>
+ 	
  	<action name="reservas" >
  		<result>/Reservas/reservar.jsp</result>
  	</action>
@@ -59,8 +72,7 @@
  	</action>
  	
  	<action name="cerrar" class="Controlador.UsuarioAction" method="desconectar"> 
-    	<result>/Sedes/index.jsp</result>
-        <result name="input">/Usuarios/index.jsp</result> 
+    	<result>/Usuarios/index.jsp</result>
     </action>
     
    

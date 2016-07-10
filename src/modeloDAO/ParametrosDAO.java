@@ -22,7 +22,7 @@ public class ParametrosDAO extends conexion{
 
 		this.sta=this.conexion.createStatement();
 		this.rs=null; 
-		String consulta="select * from parametro" ;
+		String consulta="CALL ConsultarParametros()" ;
 		rs=sta.executeQuery(consulta);
 		
 		while(rs.next()){
