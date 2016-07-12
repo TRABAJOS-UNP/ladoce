@@ -42,7 +42,7 @@ public class UsuarioDAO extends conexion{
 		int contador=0;
 		boolean encontro=false;
 		while(contador<(ps.getParametros().size())&& !encontro){
-			if(ps.getParametros().get(contador).getDescripcion_corta().equals("Deshabilitado"))
+			if(ps.getParametros().get(contador).getDescripcion_corta().equals("Habilitado"))
 				{encontro=true;
 				
 				codigo_parametro=ps.getParametros().get(contador).getCodigo();
@@ -51,24 +51,23 @@ public class UsuarioDAO extends conexion{
 		}
 		
 		if(!codigo_parametro.equals("")){
-		String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
-		rs=sta.executeQuery(consulta);
+			String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
+			rs=sta.executeQuery(consulta);
 		
-		
-		
-		while(rs.next()){
-			if(!rs.getString("estado").equals(codigo_parametro)){
-				if( email.equals(rs.getString("email"))&& pass.equals(rs.getString("password") )){
-					user=new Usuario( 	this.rs.getString("email"),
-										this.rs.getString("password"),
-										this.rs.getString("nombres"),
-										this.rs.getString("apellidos"),
-										this.rs.getString("celular"),
-										this.rs.getString("DNI"),
-										this.rs.getString("estado"),
-										this.rs.getString("tipo"));			
-				}	
-			}}
+			while(rs.next()){
+				//if(rs.getString("estado").equals(codigo_parametro)){
+					if( email.equals(rs.getString("email"))&& pass.equals(rs.getString("password") )){
+						user=new Usuario( 	this.rs.getString("email"),
+											this.rs.getString("password"),
+											this.rs.getString("nombres"),
+											this.rs.getString("apellidos"),
+											this.rs.getString("celular"),
+											this.rs.getString("DNI"),
+											this.rs.getString("estado"),
+											this.rs.getString("tipo"));			
+				//}	
+				}
+			}
 		}
 		this.cerrarConexion();
 		return user;

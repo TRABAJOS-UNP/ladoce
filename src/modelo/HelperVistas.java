@@ -11,15 +11,11 @@ import modeloDAO.ParametrosDAO;
 
 public class HelperVistas {
 	private static String PROJECT_NAME = "/ladoce";
- public HelperVistas() {
-		 
-	 }
-	 
-	 
-	 
-	 
+	
+	public HelperVistas() {	 
+	}
+
 	public static String alerta(String msg){
-		System.out.println(msg);
 		return "<div class='row'>"
 				+ "<div class=' no-float center-block'>"
 				+ "<div class='alert alert-danger text-center'>"
@@ -64,7 +60,7 @@ public class HelperVistas {
 		if(a.getAttribute("tipo")!=null){
 			String NombreUsuario=a.getAttribute("nombres").toString();
 			String tipo=a.getAttribute("tipo").toString();
-			if(tipo.equals("0001")){
+			if(tipo.equals("0007")){
 				funciones= " <ul class='nav navbar-nav navbar-right'>"
 						+ "<li class='dropdown'>"
 						+ "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
@@ -80,7 +76,7 @@ public class HelperVistas {
 						"</div>"+
 					    "</nav>";
 			}
-			if(tipo.equals("0002")){
+			if(tipo.equals("0008")){
 				funciones= " <ul class='nav navbar-nav navbar-right'>"
 						+ "<li class='dropdown'>"
 						+ "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
@@ -99,7 +95,7 @@ public class HelperVistas {
 						"</div>"+
 					    "</nav>";
 			}
-			if(tipo.equals("0003")){
+			if(tipo.equals("0009")){
 				funciones= " <ul class='nav navbar-nav navbar-right'>"
 						+ "<li class='dropdown'>"
 						+ "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>"
