@@ -1,14 +1,10 @@
 Use `BDLA12` ;
 
 DELIMITER //
-/*
-  Devuelve el usuario, si existe en la base de datos
-*/
-DROP PROCEDURE IF EXISTS AutenticarUsuario;
-CREATE PROCEDURE  AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
-BEGIN
-  SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado!=_estado;
-END;
+/*  Devuelve todo el contenido de la tabla Parametro */
+DROP PROCEDURE IF EXISTS ConsultarParametros;
+CREATE PROCEDURE ConsultarParametros()
+  SELECT * FROM Parametro;
 //
 
 DELIMITER //
@@ -23,93 +19,6 @@ BEGIN
   START TRANSACTION;
     INSERT INTO Reserva VALUES(DEFAULT, NOW(), fechaReserva, default_estado, O.O, idCliente);
   COMMIT;
-END;
-//
-
-DELIMITER //
-/*
-  Devuelve todo el contenido de la tabla Parametro
-*/
-DROP PROCEDURE IF EXISTS ConsultarParametros;
-CREATE PROCEDURE ConsultarParametros()
-  SELECT * FROM Parametro;
-//
-
-DELIMITER //
-/*
-  Crea una nueva cuenta de usuario
-*/
-DROP PROCEDURE IF EXISTS CrearUsuario;
-CREATE PROCEDURE CrearUsuario(in email VARCHAR(50), in password NVARCHAR(60),
- in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
- in dni CHAR(8), in tipo CHAR(4), in estado CHAR(4) )
-BEGIN
- START TRANSACTION;
-  INSERT INTO Usuario VALUES(DEFAULT, email, password, nombres, apellidos, celular, dni, tipo, estado);
- COMMIT;
-END;
-//
-
-DELIMITER //
-/*
-  Crea un Cliente y su respectiva cuenta de usuario
-  tipo: CLIENTE
-*/
-DROP PROCEDURE IF EXISTS CrearCliente;
-CREATE PROCEDURE CrearCliente(in _email VARCHAR(50), in _password NVARCHAR(60),
- in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
- in dni CHAR(8), in estado CHAR(4) )
-BEGIN
- DECLARE _idUsuario INT UNSIGNED;
- DECLARE tipo CHAR(4);
- SET tipo = (SELECT codigo FROM Parametro WHERE valor='CLIENTE');
- START TRANSACTION;
-  CALL CrearUsuario(_email, _password, nombres, apellidos, celular, dni, tipo, estado);
-  SET _idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
-  INSERT INTO Cliente VALUES(DEFAULT, estado, _idUsuario);
- COMMIT;
-END;
-//
-
-DELIMITER //
-/*
-  Crea un Operador y su respectiva cuenta de usuario
-  tipo: OPERADOR
-*/
-DROP PROCEDURE IF EXISTS CrearOperador;
-CREATE PROCEDURE CrearOperador(in _email VARCHAR(50), in _password NVARCHAR(60),
- in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
- in dni CHAR(8), in estado CHAR(4) )
-BEGIN
- DECLARE _idUsuario INT UNSIGNED;
- DECLARE tipo CHAR(4);
- SET tipo = (SELECT codigo FROM Parametro WHERE valor='OPERADOR');
- START TRANSACTION;
-  CALL CrearUsuario(_email, _password, nombres, apellidos, celular, dni, tipo, estado);
-  SET _idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
-  INSERT INTO Operador VALUES(DEFAULT, estado, _idUsuario);
- COMMIT;
-END;
-//
-
-DELIMITER //
-/*
-  Crea un Gerente y su respectiva cuenta de usuario
-  tipo: GERENTE
-*/
-DROP PROCEDURE IF EXISTS CrearGerente;
-CREATE PROCEDURE CrearGerente(in _email VARCHAR(50), in _password NVARCHAR(60),
- in nombres NVARCHAR(40), in apellidos NVARCHAR(50), in celular CHAR(9),
- in dni CHAR(8), in estado CHAR(4) )
-BEGIN
- DECLARE _idUsuario INT UNSIGNED;
- DECLARE tipo CHAR(4);
- SET tipo = (SELECT codigo FROM Parametro WHERE valor='GERENTE');
- START TRANSACTION;
-  CALL CrearUsuario(_email, _password, nombres, apellidos, celular, dni, tipo, estado);
-  SET _idUsuario = (SELECT idUsuario FROM Usuario WHERE email=_email AND password=_password);
-  INSERT INTO Gerente VALUES(DEFAULT, estado, _idUsuario);
- COMMIT;
 END;
 //
 
@@ -137,6 +46,83 @@ BEGIN
   ELSE
     SELECT 'EL DETALLE DE RESERVA YA EXISTE' AS 'MSG_ERROR';
   END IF;
+END;
+//
+
+
+DELIMITER //
+/*
+  Crea una nueva Persona
+*/
+DROP PROCEDURE IF EXISTS CrearPersona;
+CREATE PROCEDURE CrearPersona(in nombres NVARCHAR(40), in apellidos NVARCHAR(50),
+ in celular CHAR(9), in dni CHAR(8), in tipo CHAR(4) )
+BEGIN
+ START TRANSACTION;
+  INSERT INTO Persona VALUES(DEFAULT, nombres, apellidos, celular, dni, tipo);
+ COMMIT;
+END;
+//
+
+DELIMITER //
+/*
+  Crea un Cliente y su respectiva cuenta de usuario
+  tipo: CLIENTE
+*/
+DROP PROCEDURE IF EXISTS CrearCliente;
+CREATE PROCEDURE CrearCliente(in nombres NVARCHAR(40), in apellidos NVARCHAR(50),
+ in celular CHAR(9), in dni CHAR(8), in _idUsuario INT UNSIGNED )
+BEGIN
+ DECLARE _idPersona INT UNSIGNED;
+ DECLARE tipo CHAR(4);
+ DECLARE default_estado CHAR(4);
+ SET tipo = (SELECT codigo FROM Parametro WHERE valor='CLIENTE');
+ SET default_estado = (SELECT codigo FROM Parametro WHERE valor='HABILITADO');
+ START TRANSACTION;
+  CALL CrearPersona(nombres, apellidos, celular, dni, tipo, idUsuario);
+  SET _idPersona = (SELECT idPersona FROM Persona WHERE idUsuario=_idUsuario);
+  INSERT INTO Cliente VALUES(DEFAULT, default_estado, _idPersona);
+ COMMIT;
+END;
+//
+
+DELIMITER //
+/*
+  Crea un Operador y su respectiva cuenta de usuario
+  tipo: OPERADOR
+*/
+DROP PROCEDURE IF EXISTS CrearOperador;
+CREATE PROCEDURE CrearOperador(in nombres NVARCHAR(40), in apellidos NVARCHAR(50),
+ in celular CHAR(9), in dni CHAR(8), in estado CHAR(4), in _idUsuario INT UNSIGNED)
+BEGIN
+ DECLARE _idUsuario INT UNSIGNED;
+ DECLARE tipo CHAR(4);
+ SET tipo = (SELECT codigo FROM Parametro WHERE valor='OPERADOR');
+ START TRANSACTION;
+  CALL CrearPersona(nombres, apellidos, celular, dni, tipo, _idUsuario);
+  SET _idPersona = (SELECT idPersona FROM Persona WHERE idUsuario=_idUsuario);
+  INSERT INTO Operador VALUES(DEFAULT, estado, _idPersona);
+ COMMIT;
+END;
+//
+
+DELIMITER //
+/*
+  Crea un Gerente y su respectiva cuenta de usuario
+  tipo: GERENTE
+*/
+DROP PROCEDURE IF EXISTS CrearGerente;
+CREATE PROCEDURE CrearGerente(in nombres NVARCHAR(40), in apellidos NVARCHAR(50),
+ in celular CHAR(9), in dni CHAR(8), in estado CHAR(4), in _idUsuario INT UNSIGNED)
+BEGIN
+ DECLARE _idPersona INT UNSIGNED;
+ DECLARE tipo CHAR(4);
+ SET tipo = (SELECT codigo FROM Parametro WHERE valor='GERENTE');
+ START TRANSACTION;
+  CALL CrearPersona(nombres, apellidos, celular, dni, tipo, _idUsuario);
+  SET _idPersona = (SELECT idPersona FROM Persona WHERE idUsuario=_idUsuario);
+  INSERT INTO Gerente VALUES(DEFAULT, estado, _idPersona);
+ COMMIT;
 END;
 //
 
@@ -194,6 +180,7 @@ BEGIN
   END IF;
 END;
 //
+
 DELIMITER //
 /*
 
@@ -234,7 +221,7 @@ END;
 
 DELIMITER //
 /*
-
+Falta corregir
 */
 DROP PROCEDURE IF EXISTS AsignarOperador;
 CREATE PROCEDURE AsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni DATE)
