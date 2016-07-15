@@ -49,7 +49,7 @@ public class UsuarioDAO extends conexion{
 				}
 			contador++;
 		}
-		
+		codigo_parametro="0001";
 		if(!codigo_parametro.equals("")){
 		String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
 		rs=sta.executeQuery(consulta);

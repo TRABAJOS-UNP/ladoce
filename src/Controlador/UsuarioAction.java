@@ -16,6 +16,12 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
 
 	String email;
 	String pass;
+	  String nombres;
+	  String apellidos;
+	  String celular;
+	  String dni;
+	  String estado;
+	String nivel;
 	
 	private Map<String,Object> session;
 	@Override

@@ -10,11 +10,10 @@
   	
 		<interceptors>
 		        <interceptor name="sesionValida" class="interceptores.InterceptorAcceso" />
-		        <interceptor name="cerrar_sesion" class="interceptores.InterceptorCerrarSesion" />
 		        <interceptor-stack name="defaultTimerStack">
 		           
 		            <interceptor-ref name="sesionValida">
-		           		 	<param name="actionsPublicos">home,iniciar_sesion,sedes,autenticacion,cerrar</param>
+		           		 	<param name="actionsPublicos">home,iniciar_sesion,sedes,autenticacion,cerrar,registrar</param>
 		           		 	<param name="actionsCliente">reservas</param>
 		           		 	<param name="actionsOperador">canchas,admin_reservas,modificar_sede</param>
 		           		 	<param name="actionsGerente">operadores,admin_sedes,asignar_operador</param>
@@ -33,10 +32,12 @@
    		 <global-results>
             <result name="login">/Usuarios/index.jsp</result>
         </global-results>
+         
         	
    	<action name="home" >
  		<result>/index.jsp</result>
  	</action>
+ 	
  	<action name="iniciar_sesion" >
  		<result>/Usuarios/index.jsp</result>
  	</action>
@@ -81,6 +82,9 @@
         <result name="input">/Usuarios/index.jsp</result> 
     </action>
     
+    <action name="registrar" class="Controlador.ClienteAction" method="agregar_cliente">
+ 		<result>/Sedes.jsp</result>
+ 	</action>
     
      
   </package>

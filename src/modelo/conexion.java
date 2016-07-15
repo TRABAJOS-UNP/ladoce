@@ -6,16 +6,15 @@ import java.sql.Statement;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.exceptions.MySQLDataException;
 
-
 public class conexion {
 	protected Statement sta;
 	private final String servidor="localhost";
 	private final String usuario="root";
-	private final String contrasenia="";
+	private final String contrasenia="12345";
 	protected Connection conexion=null;
-	private String portNumber="3306";
-	private String databaseName="BDLA12";
-	private String url="jdbc:mysql://localhost:3306/"+databaseName;
+	private String portNumber="3305";
+	private String databaseName="bdla12";
+	private String url="jdbc:mysql://localhost:3305/"+databaseName;
 	
 	public conexion()
 	{}
@@ -59,10 +58,5 @@ public class conexion {
 				System.out.println("No se pudo cerrar la conexión");
 			}
 		}
-	}
-	
-
-	
-	
-	
+	}	
 }

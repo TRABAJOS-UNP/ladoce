@@ -76,37 +76,39 @@
           </div> 
           <div class="row">
             <div class="col-xs-10 col-sm-6 col-md-4 no-float center-block">
-              <form class='form-horizontal' action="Controlador_RegistroCliente" method="post">
+              <form class='form-horizontal' action="registrar" method="post">
                 <div class="form-group">
                   <label for="">Nombres:</label>
-                  <input type="text" class="form-control" name="nombre">
+                  <s:textfield class="form-control" name="nombre"></s:textfield>
                 </div>
                 <div class="form-group">
                   <label for="">Apellidos:</label>
-                  <input type="text" class="form-control" name="apellidos">
+                  <s:textfield class="form-control" name="apellidos"></s:textfield>
                 </div>
                 <div class="form-group">
                   <div class="row">
                     <div class="col-xs-6">
                       <label for="">DNI:</label>
-                      <input type="text" class="form-control " name="dni">
+                      <s:textfield class="form-control" name="dni"></s:textfield>
                     </div>
                     <div class="col-xs-6">
                       <label for="">Celular:</label>
-                      <input type="text" class="form-control" name="celular">
+                      <s:textfield class="form-control" name="celular"></s:textfield>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="">Email:</label>
-                  <input type="email" class="form-control" name="email">
+                  
+                  <s:textfield type="email" class="form-control" name="email"></s:textfield>
+                  
                 </div>
                 <div class="form-group">
                   <label for="">Contraseña:</label>
-                  <input type="password" class="form-control" name="password">
+                  <s:password class="form-control" name="password"></s:password>
                 </div>
                 <div class='form-group'>
-                  <button type='submit' class='btn btn-primary '>Registrarse</button>
+                	<s:submit class='btn btn-primary ' value="Registrate"></s:submit>
                 </div>
               </form>
             </div>
