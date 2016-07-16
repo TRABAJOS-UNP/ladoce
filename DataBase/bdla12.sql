@@ -368,7 +368,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `BDLA12`;
-INSERT INTO `BDLA12`.`Persona` (`idPersona`, `nombres`, `apellidos`, `celular`, `DNI`, `tipo`, `idUsuario`) VALUES (DEFAULT, 'Administrador', 'Administrador', NULL, '75763466', '0000', DEFAULT);
+INSERT INTO `BDLA12`.`Persona` (`idPersona`, `nombres`, `apellidos`, `celular`, `DNI`, `tipo`, `idUsuario`) VALUES (DEFAULT, 'Administrador', 'Administrador', NULL, '75763466', '0000', 1);
 
 COMMIT;
 

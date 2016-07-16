@@ -56,10 +56,10 @@ DELIMITER //
 */
 DROP PROCEDURE IF EXISTS CrearPersona;
 CREATE PROCEDURE CrearPersona(in nombres NVARCHAR(40), in apellidos NVARCHAR(50),
- in celular CHAR(9), in dni CHAR(8), in tipo CHAR(4) )
+ in celular CHAR(9), in dni CHAR(8), in tipo CHAR(4),in idUsuario INT UNSIGNED )
 BEGIN
  START TRANSACTION;
-  INSERT INTO Persona VALUES(DEFAULT, nombres, apellidos, celular, dni, tipo);
+  INSERT INTO Persona VALUES(DEFAULT, nombres, apellidos, celular, dni, tipo,idUsuario);
  COMMIT;
 END;
 //
@@ -73,15 +73,15 @@ DROP PROCEDURE IF EXISTS CrearCliente;
 CREATE PROCEDURE CrearCliente(in nombres NVARCHAR(40), in apellidos NVARCHAR(50),
  in celular CHAR(9), in dni CHAR(8), in _idUsuario INT UNSIGNED )
 BEGIN
- DECLARE _idPersona INT UNSIGNED;
+ DECLARE Persona INT UNSIGNED;
  DECLARE tipo CHAR(4);
  DECLARE default_estado CHAR(4);
  SET tipo = (SELECT codigo FROM Parametro WHERE valor='CLIENTE');
  SET default_estado = (SELECT codigo FROM Parametro WHERE valor='HABILITADO');
  START TRANSACTION;
-  CALL CrearPersona(nombres, apellidos, celular, dni, tipo, idUsuario);
-  SET _idPersona = (SELECT idPersona FROM Persona WHERE idUsuario=_idUsuario);
-  INSERT INTO Cliente VALUES(DEFAULT, default_estado, _idPersona);
+  CALL CrearPersona(nombres, apellidos, celular, dni, tipo, _idUsuario);
+  SET Persona = (SELECT idPersona FROM Persona WHERE idUsuario=_idUsuario);
+  INSERT INTO Cliente VALUES(DEFAULT, default_estado, Persona);
  COMMIT;
 END;
 //
@@ -96,6 +96,7 @@ CREATE PROCEDURE CrearOperador(in nombres NVARCHAR(40), in apellidos NVARCHAR(50
  in celular CHAR(9), in dni CHAR(8), in estado CHAR(4), in _idUsuario INT UNSIGNED)
 BEGIN
  DECLARE _idUsuario INT UNSIGNED;
+ DECLARE _idPersona INT UNSIGNED;
  DECLARE tipo CHAR(4);
  SET tipo = (SELECT codigo FROM Parametro WHERE valor='OPERADOR');
  START TRANSACTION;

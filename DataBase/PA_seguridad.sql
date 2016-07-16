@@ -7,7 +7,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS AutenticarUsuario;
 CREATE PROCEDURE  AutenticarUsuario(in _email VARCHAR(50), in _password VARCHAR(60), in _estado CHAR(4))
 BEGIN
-  SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado!=_estado;
+  SELECT * FROM Usuario WHERE email=_email AND password =_password AND estado =_estado;
 END;
 //
 
@@ -21,7 +21,7 @@ CREATE PROCEDURE CrearUsuario(in email VARCHAR(50), in password NVARCHAR(60),
 BEGIN
  START TRANSACTION;
   INSERT INTO Usuario VALUES(DEFAULT, email, password, tipo, estado);
-  AutenticarUsuario(email, password, estado);
+ 
  COMMIT;
 END;
 //

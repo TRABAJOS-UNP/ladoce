@@ -12,7 +12,10 @@ public class Usuario implements Serializable{
 	private  String dni;
 	private  String estado;
 	private String nivel;
-	public Usuario(String mail,String pass,String nom,String ap,String cel,String d,String es,String n) {
+public Usuario() {
+	
+	}
+	public Usuario(String mail,String pass,String nom,String ap,String cel,String d,String n) {
 		
 		email=mail;
 		 password=pass;
@@ -20,7 +23,7 @@ public class Usuario implements Serializable{
 		apellidos=ap;
 		celular=cel;
 		dni=d;
-		estado=es;
+
 		 nivel=n;
 	}
 	public int getIdUsuario() {

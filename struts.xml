@@ -83,7 +83,7 @@
     </action>
     
     <action name="registrar" class="Controlador.ClienteAction" method="agregar_cliente">
- 		<result>/Sedes.jsp</result>
+ 		<result>/Sedes/index.jsp</result>
  	</action>
     
      

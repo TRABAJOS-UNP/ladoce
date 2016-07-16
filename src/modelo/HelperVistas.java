@@ -25,6 +25,7 @@ public class HelperVistas {
 				+ "<div class='alert-body'>"+msg
 				+ "</div>"
 				+ "</div>"
+				+ "</div>"
 				+ "</div>";
 	}
 	public static String exito(String msg){

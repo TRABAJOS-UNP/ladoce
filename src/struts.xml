@@ -10,6 +10,7 @@
   	
 		<interceptors>
 		        <interceptor name="sesionValida" class="interceptores.InterceptorAcceso" />
+		        <interceptor name="CargaParametros" class="interceptores.InterceptorRegistro" />
 		        <interceptor-stack name="defaultTimerStack">
 		           
 		            <interceptor-ref name="sesionValida">
@@ -83,7 +84,9 @@
     </action>
     
     <action name="registrar" class="Controlador.ClienteAction" method="agregar_cliente">
- 		<result>/Sedes.jsp</result>
+ 		
+ 		<result name="input">/Usuarios/index.jsp</result> 
+ 		<result>/Sedes/index.jsp</result>
  	</action>
     
      

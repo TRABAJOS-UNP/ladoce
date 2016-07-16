@@ -13,9 +13,8 @@ public class UsuarioDAO extends conexion{
 	private Usuario user;
 	private Statement sta;
 	private ResultSet  rs;
-	
-	
-	
+	String idUsuario;
+	String tipo;
 	
 	public void guardar(){}
 	
@@ -27,50 +26,40 @@ public class UsuarioDAO extends conexion{
 		
 	public void buscar(){}
 
-
-
 	public Usuario autenticacion(String email, String pass) throws SQLException {
 		this.user=null;
-		this.conectar();
-		
-		this.sta=this.conexion.createStatement();
 		this.rs=null; 
 		ParametrosDAO ps=new ParametrosDAO();
-		String codigo_parametro="";
 		ps.consultar_parametros();
-		
-		int contador=0;
-		boolean encontro=false;
-		while(contador<(ps.getParametros().size())&& !encontro){
-			if(ps.getParametros().get(contador).getDescripcion_corta().equals("Habilitado"))
-				{encontro=true;
-				
-				codigo_parametro=ps.getParametros().get(contador).getCodigo();
-				}
-			contador++;
-		}
-		codigo_parametro="0001";
-		if(!codigo_parametro.equals("")){
-			String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
-			rs=sta.executeQuery(consulta);
+		String codigo_parametro=ps.buscar("Habilitado");
+		this.conectar("seguridad");
+		if(!codigo_parametro.equals(""))
+		{	String consulta="CALL AutenticarUsuario('"+email+"','"+pass+"','"+codigo_parametro+"');" ;
+			rs=this.consultar(consulta);
 		
 			while(rs.next()){
-				//if(rs.getString("estado").equals(codigo_parametro)){
-					if( email.equals(rs.getString("email"))&& pass.equals(rs.getString("password") )){
-						user=new Usuario( 	this.rs.getString("email"),
-											this.rs.getString("password"),
+				if( email.equals(rs.getString("email"))&& pass.equals(rs.getString("password") ))
+				{	this.idUsuario=rs.getString("idUsuario");
+					this.tipo=rs.getString("tipo"); 
+					this.cerrarConexion();
+					this.conectar("bdla12");
+					consulta="select * from Persona where idUsuario="+idUsuario;
+					rs=this.consultar(consulta);
+					while(rs.next())
+					{	user=new Usuario( 	email,
+											pass,
 											this.rs.getString("nombres"),
 											this.rs.getString("apellidos"),
 											this.rs.getString("celular"),
 											this.rs.getString("DNI"),
-											this.rs.getString("estado"),
-											this.rs.getString("tipo"));			
-				//}	
+											tipo);	
+					}
 				}
 			}
 		}
 		this.cerrarConexion();
 		return user;
 	}
+	
 	
 }

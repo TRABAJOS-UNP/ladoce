@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; utf=8"
     pageEncoding="utf-8"%>
 <%@ page session="true" %>
+ <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,11 +21,12 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6  col-md-4 no-float center-block">
-				<a href="reservar" type="button" class="btn btn-success btn-lg btn-block">
+				
+				<s:a href="reservas" type="button" class="btn btn-success btn-lg btn-block">
 					<span class="glyphicon glyphicon-hand-right"></span>
 					Reservar
 					<span class="glyphicon glyphicon-hand-left"></span>
-				</a>
+				</s:a>
 			</div>
 		</div>
 		<div class="row">

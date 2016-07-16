@@ -58,17 +58,17 @@ public class InterceptorAcceso extends AbstractInterceptor{
 		    {
 		    	switch(arg0.getInvocationContext().getSession().get("tipo").toString()){
 		    	
-			    	case "0001":
+			    	case "0007":
 			    		if(actionsC.contains(actionActual)){
 			    			result = arg0.invoke();
 			    		}
 			    		break;
-			    	case "0002":	
+			    	case "0008":	
 			    		if(actionsO.contains(actionActual)){
 			    			result = arg0.invoke();
 			    		}
 			    		break;
-			    	case "0003":
+			    	case "0009":
 			    		if(actionsG.contains(actionActual)){
 			    			result = arg0.invoke();
 			    			

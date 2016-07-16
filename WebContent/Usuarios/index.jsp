@@ -34,7 +34,7 @@
               <form method="post" action="autenticacion" class='form-horizontal'>
             
              <s:if test="getFieldErrors().get('user')!=null">
-             <div class='row'>
+             	<div class='row'>
 						<div class=' no-float center-block'>
 							<div class='alert alert-danger text-center'>
 								<div class='alert-header'>
@@ -49,15 +49,17 @@
 				</div>
              
              </s:if>
+             
+            
               
               
                 <div class="form-group">
                   <label for="">Email:</label>
-                  <s:textfield name="email" class="form-control" placeholder="email"></s:textfield>
+                  <s:textfield name="email" class="form-control" placeholder="email" type="email" required="true"></s:textfield>
                 </div>
                 <div class="form-group">
                   <label for="">Contraseña:</label>
-                  <s:password name="pass" class="form-control" placeholder="password"></s:password>
+                  <s:password name="pass" class="form-control" placeholder="password" required="true"></s:password>
                   
                 
                 </div>
@@ -77,19 +79,57 @@
           <div class="row">
             <div class="col-xs-10 col-sm-6 col-md-4 no-float center-block">
               <form class='form-horizontal' action="registrar" method="post">
+                
+                <s:if test="getFieldErrors().get('email')!=null">
+             <div class='row'>
+						<div class=' no-float center-block'>
+							<div class='alert alert-danger text-center'>
+								<div class='alert-header'>
+									<button type='button' class='close' data-dismiss='alert'>&times;</button>
+								</div>
+							<div class='alert-body'>
+             	<s:property value='getFieldErrors().get("email")[0]'/>
+             	
+             		</div>
+						</div>
+					</div>
+				</div>
+             
+             </s:if>
+                 <s:if test="getFieldErrors().get('dni')!=null">
+             <div class='row'>
+						<div class=' no-float center-block'>
+							<div class='alert alert-danger text-center'>
+								<div class='alert-header'>
+									<button type='button' class='close' data-dismiss='alert'>&times;</button>
+								</div>
+							<div class='alert-body'>
+             	<s:property value='getFieldErrors().get("dni")[0]'/>
+             	
+             		</div>
+						</div>
+					</div>
+				</div>
+             
+             </s:if>
                 <div class="form-group">
                   <label for="">Nombres:</label>
-                  <s:textfield class="form-control" name="nombre"></s:textfield>
+                  <s:textfield class="form-control" name="nombres" required="true"></s:textfield>
                 </div>
                 <div class="form-group">
                   <label for="">Apellidos:</label>
-                  <s:textfield class="form-control" name="apellidos"></s:textfield>
+                  <s:textfield class="form-control" name="apellidos" required="true"></s:textfield>
                 </div>
                 <div class="form-group">
                   <div class="row">
-                    <div class="col-xs-6">
+                  <s:if test="getFieldErrors().get('dni')!=null">
+                    <div class="col-xs-6  has-error">
+                    </s:if>
+                    <s:else>
+                  <div class=" col-xs-6">
+                  </s:else>
                       <label for="">DNI:</label>
-                      <s:textfield class="form-control" name="dni"></s:textfield>
+                      <s:textfield class="form-control" name="dni" required="true"></s:textfield>
                     </div>
                     <div class="col-xs-6">
                       <label for="">Celular:</label>
@@ -97,15 +137,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <s:if test="getFieldErrors().get('email')!=null">
+                <div class="form-group has-error">
+                </s:if>
+                <s:else>
+                  <div class="form-group">
+                  </s:else>
                   <label for="">Email:</label>
-                  
-                  <s:textfield type="email" class="form-control" name="email"></s:textfield>
-                  
-                </div>
+                 <s:textfield type="email" class="form-control" name="email" required="true"></s:textfield>
+                 </div> 
+                 
+                 
                 <div class="form-group">
                   <label for="">Contraseña:</label>
-                  <s:password class="form-control" name="password"></s:password>
+                  <s:password class="form-control" name="password" required="true"></s:password>
                 </div>
                 <div class='form-group'>
                 	<s:submit class='btn btn-primary ' value="Registrate"></s:submit>

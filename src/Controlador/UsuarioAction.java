@@ -16,11 +16,11 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
 
 	String email;
 	String pass;
-	  String nombres;
-	  String apellidos;
-	  String celular;
-	  String dni;
-	  String estado;
+	String nombres;
+	String apellidos;
+	String celular;
+	String dni;
+	String estado;
 	String nivel;
 	
 	private Map<String,Object> session;
@@ -67,7 +67,7 @@ public class UsuarioAction extends ActionSupport implements SessionAware{
                     return SUCCESS;      
          }else{
         	 addFieldError("user", "El usuario no registrado");
-       return INPUT;
+        	 return INPUT;
          }
 }
 	

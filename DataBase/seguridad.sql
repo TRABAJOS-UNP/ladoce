@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `SEGURIDAD`.`Usuario` (
   `idUsuario` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(60) NOT NULL,
-  `tipo` CHAR(4) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tipo` CHAR(4) NOT NULL,
   `estado` CHAR(4) NOT NULL,
   PRIMARY KEY (`idUsuario`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
@@ -42,7 +42,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `SEGURIDAD`;
-INSERT INTO `SEGURIDAD`.`Usuario` (`idUsuario`, `email`, `password`, `tipo`, `estado`) VALUES (DEFAULT, 'admin@admin.com', 'admin1234', '0007', '0000');
+INSERT INTO `SEGURIDAD`.`Usuario` (`idUsuario`, `email`, `password`, `tipo`, `estado`) VALUES (DEFAULT, 'admin@admin.com', 'admin1234', '0009', '0000');
 
 COMMIT;
 

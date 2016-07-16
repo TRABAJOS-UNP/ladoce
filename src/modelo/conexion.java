@@ -1,5 +1,6 @@
 package modelo;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -13,12 +14,15 @@ public class conexion {
 	private final String contrasenia="12345";
 	protected Connection conexion=null;
 	private String portNumber="3305";
-	private String databaseName="bdla12";
-	private String url="jdbc:mysql://localhost:3305/"+databaseName;
+	private String databaseName="";
+	private String url;
+	private ResultSet respuesta;
 	
 	public conexion()
 	{}
-	public void conectar(){
+	public void conectar(String bd){
+		this.databaseName=bd;
+		url="jdbc:mysql://localhost:3305/"+databaseName;
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -58,5 +62,17 @@ public class conexion {
 				System.out.println("No se pudo cerrar la conexión");
 			}
 		}
-	}	
+	}
+	public ResultSet consultar(String consulta) throws SQLException{
+		
+		this.sta=this.conexion.createStatement();
+		respuesta=this.sta.executeQuery(consulta);
+		
+		return respuesta;
+	} 
+	public void actualizar(String consulta) throws SQLException{
+		
+		this.sta=this.conexion.createStatement();
+		this.sta.executeUpdate(consulta);
+	} 
 }
