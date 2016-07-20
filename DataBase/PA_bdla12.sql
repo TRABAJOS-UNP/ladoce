@@ -244,3 +244,13 @@ BEGIN
     COMMIT;
 END;
 //
+
+Delimiter //
+Drop Procedure if Exist CanchasDisponibles;
+Create Procedure CanchasDisponibles(in hora Time, in nomSede nvarchar(50)
+Begin
+Select numero From Cancha Where idCancha = (
+	Select DR_idCancha From DetalleReserva Where horaInicio not like hora) and Cancha_idSede = (
+		Select idSede From Sede Where nombre like nomSede)
+End;
+//
