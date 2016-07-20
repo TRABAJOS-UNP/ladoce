@@ -247,10 +247,20 @@ END;
 
 Delimiter //
 Drop Procedure if Exist CanchasDisponibles;
-Create Procedure CanchasDisponibles(in hora Time, in nomSede nvarchar(50)
+Create Procedure CanchasDisponibles(in hora Time, in nomSede nvarchar(50))
 Begin
 Select numero From Cancha Where idCancha = (
 	Select DR_idCancha From DetalleReserva Where horaInicio not like hora) and Cancha_idSede = (
 		Select idSede From Sede Where nombre like nomSede)
 End;
+//
+
+
+Delimeter //
+Drop Procedure If Exists horasDisponibles;
+Create Procedure horasDisponibles(in cancha int)
+Begin
+	Select horaInicio From PrecioHora Where horaInicio not like (
+		Select horaInicio From DetalleReserva Where DR_idCancha like cancha)
+End
 //
