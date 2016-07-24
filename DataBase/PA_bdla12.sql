@@ -225,7 +225,7 @@ DELIMITER //
 Falta corregir
 */
 DROP PROCEDURE IF EXISTS AsignarOperador;
-CREATE PROCEDURE AsignarOperador (nomSede varchar(50), dniOpe char(8), fechaIni DATE)
+CREATE PROCEDURE AsignarOperador (in nomSede varchar(50), in dniOpe char(8), in fechaIni DATE)
 BEGIN
     DECLARE idSe int;
     DECLARE idOpe1 int;
@@ -246,21 +246,21 @@ END;
 //
 
 Delimiter //
-Drop Procedure if Exist CanchasDisponibles;
-Create Procedure CanchasDisponibles(in hora Time, in nomSede nvarchar(50))
+Drop Procedure if Exists CanchasDisponibles;
+Create Procedure CanchasDisponibles(in hora TIME, in nomSede nvarchar(50))
 Begin
 Select numero From Cancha Where idCancha = (
 	Select DR_idCancha From DetalleReserva Where horaInicio not like hora) and Cancha_idSede = (
-		Select idSede From Sede Where nombre like nomSede)
+		Select idSede From Sede Where nombre like nomSede);
 End;
 //
 
 
-Delimeter //
+Delimiter //
 Drop Procedure If Exists horasDisponibles;
 Create Procedure horasDisponibles(in cancha int)
 Begin
 	Select horaInicio From PrecioHora Where horaInicio not like (
-		Select horaInicio From DetalleReserva Where DR_idCancha like cancha)
-End
+		Select horaInicio From DetalleReserva Where DR_idCancha like cancha);
+End;
 //

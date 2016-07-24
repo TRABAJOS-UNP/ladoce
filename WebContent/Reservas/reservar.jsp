@@ -10,27 +10,10 @@
 	<%= HelperVistas.getLinkToCss() %>
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
-	    <div class="container-fluid">
-	      <div class="navbar-header">
-	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar1" aria-expanded="false">
-	          <span class="sr-only">Toggle navigation</span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	          <span class="icon-bar"></span>
-	        </button>
-	        <a class="navbar-brand" href="/SistemaReservas/">
-	          <img alt="LogoLa12" src="">
-	        </a>
-	      </div>
-	      <div class="collapse navbar-collapse" id="navbar1">
-	        <% Usuario usuario = (Usuario)request.getAttribute("usuario");
-	        	out.println(HelperVistas.getNavbar(usuario));
-	        %>
-	      </div>
-	    </div>
-	</nav>
 
+	<%
+       	out.println(HelperVistas.getNavbar(request.getSession()));
+    %>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-6 no-float center-block">
@@ -48,7 +31,7 @@
 						<div class="row">
 						  <div class="col-xs-6">
 								<label for="">Fecha:</label>
-								<input name="fecha" type="date" class="form-control" placeholder="dia/mes/año">
+								<input name="fecha" type="date" class="form-control" placeholder="dia/mes/aï¿½o">
 						  </div>
 							<div class="col-xs-6">
 								<label for="">Hora de Inicio:</label>
@@ -74,14 +57,16 @@
 	</div>
 
 	<div class="container">
-		<div class="row">
+		<div class="row panel panel-body">
 			<h2 align="center">Canchas Disponibles</h2>
+      <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar Reserva</button>
+
 		</div>
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
 				<div id="cancha1" class="panel panel-default">
 				  <div class="panel-heading">
-				    <h3 class="panel-title">Cancha Nº 1</h3>
+				    <h3 class="panel-title">Cancha 1</h3>
 				  </div>
 				  <form method="post" action="" class="panel-body">
 						<table class="table table-striped">
@@ -122,14 +107,14 @@
 						</table>
 					  <label>Total: S/. </label>
 						<label class="reservatotal" >00.00</label><br>
-						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar Reserva</button>
+
 				  </form>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6">
 				<div id="cancha2" class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Cancha Nº 2</h3>
+						<h3 class="panel-title">Cancha 2</h3>
 					</div>
 					<form method="post" action="" class="panel-body">
 						<table class="table table-striped">
@@ -170,7 +155,7 @@
 						</table>
 						<label>Total: S/. </label>
 						<label class="reservatotal" >00.00</label><br>
-						<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar Reserva</button>
+
 					</form>
 				</div>
 			</div>
